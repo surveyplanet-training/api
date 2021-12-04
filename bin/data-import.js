@@ -3,6 +3,7 @@
 const argv = require('minimist')(process.argv.slice(2));
 const https = require('https');
 const path = require('path');
+const {inspect} = require('util');
 const fs   = require('fs');
 const unzipper = require('unzipper');
 const {chain}  = require('stream-chain');
@@ -35,8 +36,10 @@ if (argv.h || argv.help) {
 
 
 // const arg1 = argv._[0] || argv.arg1 || argv.a;
-// const verbose = argv.v || argv.verbose;
-	
+const verbose = argv.v || argv.verbose;
+
+
+// Download data from USDA and save file to DATA_DIR
 async function downloadData (uri = DATA_URI) {
 
 	return new Promise((resolve, reject) => {
@@ -60,9 +63,12 @@ async function downloadData (uri = DATA_URI) {
 
 }
 
+// Open JSON file and parse items
 function parseData (file) {
 
 	console.log(`Parsing data from ${file}`);
+
+	let counter = 0;
 
 	return new Promise( function (resolve, reject) {
 
@@ -70,34 +76,42 @@ function parseData (file) {
 			fs.createReadStream(file),
 			parser(),
 			pick({filter: 'FoundationFoods'}),
-			// ignore({filter: /\b_meta\b/i}),
 			streamArray(),
 			(data) => {
-				// return insertData(data.value);
-				console.log(data);
+				counter++;
+				return insertDocument(data.value);
 			}
 		]);
 
-		let counter = 0;
-		pipeline.on('data', () => ++counter);
+		pipeline.on('data', () => counter++ );
 		pipeline.on('end', () => {
-			console.log(`Done parsing ${counter} nutirional facts from the USDA.`);
-			resolve('done');
+			if (verbose) {
+				console.log(`Done parsing ${counter} nutirional facts from the USDA.`);
+			}
+			resolve(counter);
 		});
 
 	});
 
 }
 
-function insertData (data) {
+function insertDocument (data) {
 	console.log('\n\n ———————— INSERTING DATA ————————\n\n');
-	console.log(data);
+	console.log( inspect(data, {depth:1, colors:true}) );
+
+	// 2. TODO: Insert data into 'foods' collections
+
 }
 
+
+
+// Initialize
 ( async () => {
 	
 	let dataFile,
 		data;
+
+	// 1. TODO: Connect to MongoDB
 	
 	try {
 		dataFile = await downloadData();
@@ -116,7 +130,7 @@ function insertData (data) {
 
 })()
 	.then( (result) => {
-		console.log(result);
+		console.log('Success!');
 		process.exit(0);
 	})
 	.catch( (e) => {
