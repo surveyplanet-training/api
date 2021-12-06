@@ -7,6 +7,7 @@ const uri = `mongodb+srv://${config.mongo.user}:${config.mongo.password}@stage.w
 const client = new MongoClient( uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 app.set('client', client); // use: app.get('client')
+app.set('port', config.port || 8080); // use: app.get('port')
 
 let routes = require('./routes/index');
 

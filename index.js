@@ -1,7 +1,6 @@
 const httpShutdown = require('http-shutdown');
 const app = require('./app');
 const client = app.get('client');
-const PORT = 8080;
 
 let server;
 
@@ -23,7 +22,7 @@ function serverErrorHandler (error) {
 }
 
 function serverListeningHandler () {
-	console.log(`Server listening on port ${PORT}`);
+	console.log(`Server listening on port ${ app.get('port') }`);
 }
 
 function sigintHander () {
@@ -70,7 +69,7 @@ function shutdown () {
 
 	await client.connect();
 
-	server = httpShutdown( app.listen( PORT ) );
+	server = httpShutdown( app.listen( app.get('port')  ) );
 
 	server.on( 'error', serverErrorHandler );
 	server.on( 'listening', serverListeningHandler );
