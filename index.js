@@ -1,7 +1,7 @@
 const httpShutdown = require('http-shutdown');
 const app = require('./app');
 const client = app.get('client');
-const PORT = 8888;
+const PORT = 8080;
 
 let server;
 
