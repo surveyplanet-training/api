@@ -5,7 +5,6 @@ const { ObjectId } = mongoose.Types;
 const Restaurant = require('../../../lib/models/restaurant.js');
 
 describe('Restaurant', function () {
-
 	before(function () {
 		mongoose.connect(mongoUri);
 	});
@@ -36,4 +35,6 @@ describe('Restaurant', function () {
 	// it('should update a restaurant', async function () {});
 	// it('should get a restaurant', async function () {});
 	// it('should delete a restaurant', async function () {});
+
+	after(() => mongoose.disconnect());
 });
