@@ -5,9 +5,11 @@ const { ObjectId } = mongoose.Types;
 const Restaurant = require('../../../lib/models/restaurant.js');
 
 describe('Restaurant', function () {
+
 	before(function () {
 		mongoose.connect(mongoUri);
 	});
+
 	it('should create a restaurant', async function () {
 		const restaurant = new Restaurant({
 			user: new ObjectId(),
@@ -31,7 +33,7 @@ describe('Restaurant', function () {
 		}
 		expect(doc).to.exist;
 	});
-	it('should update a restaurant', async function () {});
-	it('should get a restaurant', async function () {});
-	it('should delete a restaurant', async function () {});
+	// it('should update a restaurant', async function () {});
+	// it('should get a restaurant', async function () {});
+	// it('should delete a restaurant', async function () {});
 });
