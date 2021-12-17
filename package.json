@@ -19,8 +19,7 @@
 	"homepage": "https://github.com/serferdinand2/api#readme",
 	"dependencies": {
 		"express": "^4.17.1",
-		"http-shutdown": "^1.2.2",
-		"mongodb": "^4.2.0"
+		"http-shutdown": "^1.2.2"
 	},
 	"devDependencies": {
 		"eslint": "^8.2.0",
