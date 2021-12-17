@@ -1,32 +1,32 @@
 {
-  "name": "api",
-  "version": "1.0.0",
-  "description": "training api",
-  "main": "index.js",
-  "scripts": {
-    "dev": "./node_modules/.bin/nodemon index.js",
-    "test": "./node_modules/.bin/mocha test"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/serferdinand2/api.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/serferdinand2/api/issues"
-  },
-  "homepage": "https://github.com/serferdinand2/api#readme",
-  "dependencies": {
-    "express": "^4.17.1",
-    "http-shutdown": "^1.2.2",
-    "mongodb": "^4.2.0"
-  },
-  "devDependencies": {
-    "eslint": "^8.2.0",
-    "nodemon": "^2.0.15",
-    "stream-chain": "^2.2.4",
-    "stream-json": "^1.7.3",
-    "unzipper": "^0.10.11"
-  }
+	"name": "api",
+	"version": "1.0.0",
+	"description": "training api",
+	"main": "index.js",
+	"scripts": {
+		"dev": "./node_modules/.bin/nodemon index.js",
+		"test": "./node_modules/.bin/mocha test"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/serferdinand2/api.git"
+	},
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/serferdinand2/api/issues"
+	},
+	"homepage": "https://github.com/serferdinand2/api#readme",
+	"dependencies": {
+		"express": "^4.17.1",
+		"http-shutdown": "^1.2.2",
+		"mongodb": "^4.2.0"
+	},
+	"devDependencies": {
+		"eslint": "^8.2.0",
+		"nodemon": "^2.0.15",
+		"stream-chain": "^2.2.4",
+		"stream-json": "^1.7.3",
+		"unzipper": "^0.10.11"
+	}
 }

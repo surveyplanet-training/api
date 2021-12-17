@@ -5,16 +5,13 @@ const router = express.Router();
 
 const EXCLUDE = [];
 
-module.exports = function() {
-	
+module.exports = function () {
 	let files = fs.readdirSync(`${__dirname}/v1`) || [];
 
 	for (let file of files) {
-
 		if (!EXCLUDE.includes(file) && path.extname(file) === '.js') {
 			require(`./v1/${file}`)(router);
 		}
-
 	}
 
 	// List all routes
@@ -25,5 +22,4 @@ module.exports = function() {
 	// });
 
 	return router;
-
 };

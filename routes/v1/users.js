@@ -1,19 +1,16 @@
-const {ObjectId} = require('mongodb');
+const { ObjectId } = require('mongodb');
 
 module.exports = function (router) {
-
-
-	router.get( '/user/:id', async (request, response, next) => {
-
+	router.get('/user/:id', async (request, response, next) => {
 		const client = request.app.get('client');
 		const usersCollection = client.db('surveyplanet').collection('users');
 
-		if (!ObjectId.isValid(request.params.id) ) {
+		if (!ObjectId.isValid(request.params.id)) {
 			return response.status(404).send('Not Found');
 		}
 
 		const query = {
-			_id: ObjectId(request.params.id)
+			_id: ObjectId(request.params.id),
 		};
 
 		let user;
@@ -25,24 +22,21 @@ module.exports = function (router) {
 		}
 
 		response.json(user || {});
-
 	});
 
-	router.get( '/users', async (request, response, next) => {
-
+	router.get('/users', async (request, response, next) => {
 		const client = request.app.get('client');
 		const usersCollection = client.db('surveyplanet').collection('users');
 
-		let users, query = {};
+		let users,
+			query = {};
 
-		if (ObjectId.isValid(request.query.after) ) {
-
+		if (ObjectId.isValid(request.query.after)) {
 			query = {
 				_id: {
 					$gt: ObjectId(request.query.after),
-				}
+				},
 			};
-
 		}
 
 		try {
@@ -51,12 +45,8 @@ module.exports = function (router) {
 			return Promise.reject(err);
 		}
 
-		response.json(users || []) ;
-
+		response.json(users || []);
 	});
 
-
 	return router;
-
 };
-
