@@ -1,15 +1,12 @@
 const express = require('express');
 const config = require('./env');
-const { MongoClient } = require('mongodb');
+const mongoose = require('mongoose');
+const { mongoUri } = require('/lib/definitions');
 
 const app = express();
-const uri = `mongodb+srv://${config.mongo.user}:${config.mongo.password}@stage.w4tez.mongodb.net/surveyplanet?retryWrites=true&w=majority`;
-const client = new MongoClient(uri, {
-	useNewUrlParser: true,
-	useUnifiedTopology: true,
-});
 
-app.set('client', client); // use: app.get('client')
+mongoose.connect(mongoUri);
+
 app.set('port', config.port || 8080); // use: app.get('port')
 
 let routes = require('./routes/index');
