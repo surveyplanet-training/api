@@ -79,6 +79,15 @@ describe('Restaurant', function () {
 		}
 		const filter = { name: 'Test Restaurant' };
 		const update = { description: 'Tested the updating test' };
+		doc = await Restaurant.findOneAndUpdate(filter, update);
+
+		expect(doc).to.exist;
+		expect(doc.description).to.be.equal('Tested the updating test');
+		//expect(doc.matchedCount).to.be.equal(1);
+		//expect(doc.modifiedCount).to.be.equal(1);
+		expect(doc.acknowledged).to.be.true;
+		expect(doc.upsertedId).to.be.equal(0);
+		expect(doc.upsertedCount).to.be.equal(0);
 		
 
 
