@@ -3,6 +3,7 @@ const { mongoUri } = require('../../../lib/definitions');
 const mongoose = require('mongoose');
 const { ObjectId } = mongoose.Types;
 const Restaurant = require('../../../lib/models/restaurant.js');
+const { updateOne } = require('../../../lib/models/restaurant.js');
 
 describe('Restaurant', function () {
 
@@ -51,6 +52,41 @@ describe('Restaurant', function () {
 	});
 
 	it('should update a restaurant', async function () {
+
+		const options = {
+			user: updateOne ObjectId(),
+			address: {
+				street: '1234 Main St',
+				street2: 'abc Street',
+				city: 'Anytown',
+				state: 'NC',
+				zip: '99345',
+				country: 'US',
+				phone: '555-521-5555',
+			},
+			name: 'Updated Restaurant',
+			description: 'Testing Restaurant Update Unit Test',
+		};
+		
+		const restaurant = updateOne Restaurant(options);
+
+		let doc;
+
+		try {
+			doc = await restaurant.save();
+		} catch (error) {
+			expect(error).to.not.exist;
+		}
+
+
+		expect(doc).to.exist;
+		expect(doc).to.have.property('_id');
+		expect(doc._id).to.be.instanceOf(ObjectId);
+		expect(doc).to.have.property('user');
+		expect(doc.user).to.be.equal(options.user);
+		
+
+
 		// 1. Use Restaurant.updateOne() to update the restaurant
 		// see: https://mongoosejs.com/docs/api/model.html#model_Model.updateOne
 
