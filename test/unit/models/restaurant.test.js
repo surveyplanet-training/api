@@ -41,26 +41,43 @@ describe('Restaurant', function () {
 
 		expect(doc).to.exist;
 		// 1. ensure doc has the following properties: '_id', 'user', 'address', 'name', 'description', 'created', 'updated'
-		expect(doc).to.have.property('_id', 'Resurant does not have an id');
+		expect(doc).to.have.property('_id');
 		expect(doc._id).to.be.instanceOf(ObjectId);
 		expect(doc).to.have.property('user');
 		expect(doc.user).to.be.equal(options.user);
-		// 2. ensure doc.address has the appropriate properties
 		// 3. ensure all doc properties are set to the appropriate values
-		// 4. save the restaurant _id so we can use it on the other test
+		// 4. cache the restaurant._id (restaurantId) so we can use it on the other test
 		
 	});
 
 	it('should update a restaurant', async function () {
+		// 1. Use Restaurant.updateOne() to update the restaurant
 		// see: https://mongoosejs.com/docs/api/model.html#model_Model.updateOne
+
+		// 2. Make sure the results are the correct values. e.g.:
+		// matchedCount: 1
+		// modifiedCount: 1
+		// acknowledged: true
+		// upsertedId: 0
+		// upsertedCount: 0
+
+		
 	});
 	
 	it('should get a restaurant', async function () {
+		// 1. Use Restaurant.findOne() to get the restaurant
 		// see: https://mongoosejs.com/docs/api/model.html#model_Model.findOne
+
+		// 2. Make sure the results are the correct values
+		
 	});
 
 	it('should delete a restaurant', async function () {
+		// 1. Use Restaurant.deleteOne() to delete the restaurant
 		// see: https://mongoosejs.com/docs/api/model.html#model_Model.deleteOne
+
+		// 2. Make sure the results are the correct values
+		
 	});
 
 	

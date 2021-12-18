@@ -1,0 +1,18 @@
+---
+extension:
+  - 'js'
+ignore:
+  - '^_'
+  - 'fixtures'
+  - 'assets'
+reporter: 'spec'
+# require: 
+#   - 'should'
+#   - 'test/_env.js'
+retries: 0
+# slow: 75
+sort: false
+timeout: 8000 # same as "no-timeout: true" or "timeout: 0"
+ui: 'bdd'
+v8-stack-trace-limit: 100 # V8 flags are prepended with "v8-"
+watch: false
