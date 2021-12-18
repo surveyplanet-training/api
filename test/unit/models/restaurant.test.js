@@ -54,21 +54,21 @@ describe('Restaurant', function () {
 	it('should update a restaurant', async function () {
 
 		const options = {
-			user: updateOne ObjectId(),
+			user: new ObjectId(),
 			address: {
-				street: '1234 Main St',
-				street2: 'abc Street',
+				street: '123 Main St',
+				street2: '',
 				city: 'Anytown',
-				state: 'NC',
-				zip: '99345',
+				state: 'CA',
+				zip: '12345',
 				country: 'US',
-				phone: '555-521-5555',
+				phone: '555-555-5555',
 			},
-			name: 'Updated Restaurant',
-			description: 'Testing Restaurant Update Unit Test',
+			name: 'Test Restaurant',
+			description: 'Testing Restaurant Creation Unit Test',
 		};
-		
-		const restaurant = updateOne Restaurant(options);
+
+		const restaurant = new Restaurant(options);
 
 		let doc;
 
@@ -77,13 +77,8 @@ describe('Restaurant', function () {
 		} catch (error) {
 			expect(error).to.not.exist;
 		}
-
-
-		expect(doc).to.exist;
-		expect(doc).to.have.property('_id');
-		expect(doc._id).to.be.instanceOf(ObjectId);
-		expect(doc).to.have.property('user');
-		expect(doc.user).to.be.equal(options.user);
+		const filter = { name: 'Test Restaurant' };
+		const update = { description: 'Tested the updating test' };
 		
 
 
