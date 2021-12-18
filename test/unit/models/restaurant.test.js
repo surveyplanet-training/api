@@ -6,11 +6,11 @@ const Restaurant = require('../../../lib/models/restaurant.js');
 
 describe('Restaurant', function () {
 
+	let restaurantId;
+
 	before( () => mongoose.connect(mongoUri) );
 
 	after(() => mongoose.disconnect());
-
-	let restaurantId;
 
 	it('should create a restaurant', async function () {
 
@@ -41,7 +41,10 @@ describe('Restaurant', function () {
 
 		expect(doc).to.exist;
 		// 1. ensure doc has the following properties: '_id', 'user', 'address', 'name', 'description', 'created', 'updated'
-		expect(doc).to.have.property('_id');
+		expect(doc).to.have.property('_id', 'Resurant does not have an id');
+		expect(doc._id).to.be.instanceOf(ObjectId);
+		expect(doc).to.have.property('user');
+		expect(doc.user).to.be.equal(options.user);
 		// 2. ensure doc.address has the appropriate properties
 		// 3. ensure all doc properties are set to the appropriate values
 		// 4. save the restaurant _id so we can use it on the other test
