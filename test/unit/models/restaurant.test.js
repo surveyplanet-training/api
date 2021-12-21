@@ -3,8 +3,7 @@ const { mongoUri } = require('../../../lib/definitions');
 const mongoose = require('mongoose');
 const { ObjectId } = mongoose.Types;
 const Restaurant = require('../../../lib/models/restaurant.js');
-const { updateOne } = require('../../../lib/models/restaurant.js');
-const { findOne } = require('../../../lib/models/restaurant.js');
+
 
 describe('Restaurant', function () {
 
@@ -89,8 +88,6 @@ describe('Restaurant', function () {
 		expect(doc.upsertedId).to.be.null;
 		expect(doc.upsertedCount).to.be.equal(0);
 		
-
-
 		// 1. Use Restaurant.updateOne() to update the restaurant
 		// see: https://mongoosejs.com/docs/api/model.html#model_Model.updateOne
 		// 2. Make sure the results are the correct values. e.g.:
@@ -99,8 +96,7 @@ describe('Restaurant', function () {
 		// acknowledged: true
 		// upsertedId: 0
 		// upsertedCount: 0
-
-		
+				
 	});
 	
 	it('should get a restaurant', async function () {
@@ -127,9 +123,6 @@ describe('Restaurant', function () {
 		} catch (error) {
 			expect(error).to.not.exist;
 		}
-
-		
-		
 		
 		doc = await Restaurant.findOne(options);
 
@@ -174,7 +167,9 @@ describe('Restaurant', function () {
 			expect(error).to.not.exist;
 		}
 
-		
+		doc = await Restaurant.deleteOne(options);
+
+		expect(doc.deletedCount).to.be.equal(1);
 		// 1. Use Restaurant.deleteOne() to delete the restaurant
 		// see: https://mongoosejs.com/docs/api/model.html#model_Model.deleteOne
 
