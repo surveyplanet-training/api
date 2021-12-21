@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const { ObjectId } = mongoose.Types;
 const Restaurant = require('../../../lib/models/restaurant.js');
 const { updateOne } = require('../../../lib/models/restaurant.js');
+const { findOne } = require('../../../lib/models/restaurant.js');
 
 describe('Restaurant', function () {
 
@@ -71,12 +72,12 @@ describe('Restaurant', function () {
 		const restaurant = new Restaurant(options);
 
 		let doc;
-
 		try {
 			doc = await restaurant.save();
 		} catch (error) {
 			expect(error).to.not.exist;
 		}
+
 		const filter = { name: 'Test Restaurant' };
 		const update = { description: 'Tested the updating test' };
 		doc = await Restaurant.updateOne(filter, update);
@@ -103,8 +104,55 @@ describe('Restaurant', function () {
 	});
 	
 	it('should get a restaurant', async function () {
+
+		const options = {
+			user: new ObjectId(),
+			address: {
+				street: '123 Main St',
+				street2: '',
+				city: 'Anytown',
+				state: 'CA',
+				zip: '12345',
+				country: 'US',
+				phone: '555-555-5555',
+			},
+			name: 'Test Restaurant',
+			description: 'Testing Restaurant Creation Unit Test',
+		};
+		const restaurant = new Restaurant(options);
+
+		let doc;
+		try {
+			doc = await restaurant.save();
+		} catch (error) {
+			expect(error).to.not.exist;
+		}
+
+		const name = { name: 'Test Restaurant' };
+		const description = {description: 'Testing Restaurant Creation Unit Test' };
+		const street = { street: '123 Main St' };
+		const street2 = { street2: '' };
+		const city = { city: 'Anytown' };
+		const state = { state: 'CA' };
+		const zip = { zip: '12345' };
+		const country = { country: 'US' };
+		const phone = { phone: '555-555-5555' };
+		
+		
+		doc = await Restaurant.findOne(options);
+
+		expect(doc.name).to.equal('Test Restaurant');
+		expect(doc.description).to.equal('Testing Restaurant Creation Unit Test');
+		expect(doc.address.street).to.equal('123 Main St');
+		expect(doc.address.street2).to.equal('');
+		expect(doc.address.city).to.equal('Anytown');
+		expect(doc.address.state).to.equal('CA');
+		expect(doc.address.zip).to.equal('12345');
+		expect(doc.address.country).to.equal('US');
+		expect(doc.address.phone).to.equal('555-555-5555');
+
 		// 1. Use Restaurant.findOne() to get the restaurant
-		// see: https://mongoosejs.com/docs/api/model.html#model_Model.findOne
+		// see: htts://mongoosejs.com/docs/api/model.html#model_Model.findOne
 
 		// 2. Make sure the results are the correct values
 		
