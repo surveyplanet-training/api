@@ -2,18 +2,18 @@ const { expect } = require('chai');
 const { mongoUri } = require('../../../lib/definitions');
 const mongoose = require('mongoose');
 const { ObjectId } = mongoose.Types;
-const Restaurant = require('../../../lib/models/restaurant.js');
+const Menu = require('../../../lib/models/menu.js');
 
 
-describe('Restaurant', function () {
+describe('Menu', function () {
 
-	let restaurantId;
+	let menuId;
 
 	before( () => mongoose.connect(mongoUri) );
 
 	after(() => mongoose.disconnect());
 
-	it('should create a restaurant', async function () {
+	it('should create a menu', async function () {
 
 		const options = {
 			user: new ObjectId(),
@@ -26,16 +26,16 @@ describe('Restaurant', function () {
 				country: 'US',
 				phone: '555-555-5555',
 			},
-			name: 'Test Restaurant',
-			description: 'Testing Restaurant Creation Unit Test',
+			name: 'Test Menu',
+			description: 'Testing Menu Creation Unit Test',
 		};
 
-		const restaurant = new Restaurant(options);
+		const menu = new Menu(options);
 
 		let doc;
 
 		try {
-			doc = await restaurant.save();
+			doc = await menu.save();
 		} catch (error) {
 			expect(error).to.not.exist;
 		}
@@ -46,18 +46,18 @@ describe('Restaurant', function () {
 		expect(doc).to.have.property('user');
 		expect(doc.user).to.be.equal(options.user);
 
-		restaurantId = doc._id;
+		menuId = doc._id;
 		
 	});
 
-	it('should update a restaurant', async function () {
+	it('should update a menu', async function () {
 
-		const filter = { _id: restaurantId };
+		const filter = { _id: menuId };
 		const update = { description: 'Tested the updating test' };
 
 		let doc;
 		try {
-			doc = await Restaurant.updateOne(filter, update);
+			doc = await Menu.updateOne(filter, update);
 		} catch (error) {
 			expect(error).to.not.exist;
 		}
@@ -69,19 +69,19 @@ describe('Restaurant', function () {
 	
 	});
 	
-	it('should get a restaurant', async function () {
+	it('should get a menu', async function () {
 
 		
 		let doc;
 		try {
-			doc = await Restaurant.findOne({_id: restaurantId});
+			doc = await Menu.findOne({_id: menuId});
 		} catch (error) {
 			expect(error).to.not.exist;
 		}
 		
 
-		expect(doc.name).to.equal('Test Restaurant');
-		expect(doc.description).to.equal('Testing Restaurant Creation Unit Test');
+		expect(doc.name).to.equal('Test Menu');
+		expect(doc.description).to.equal('Testing Menu Creation Unit Test');
 		expect(doc.address.street).to.equal('123 Main St');
 		expect(doc.address.street2).to.equal('');
 		expect(doc.address.city).to.equal('Anytown');
@@ -92,12 +92,12 @@ describe('Restaurant', function () {
 
 	});
 
-	it('should delete a restaurant', async function () {
+	it('should delete a menu', async function () {
 		
 
 		let doc;
 		try {
-			doc = await Restaurant.deleteOne({_id: restaurantId});
+			doc = await Menu.deleteOne({_id: menuId});
 		} catch (error) {
 			expect(error).to.not.exist;
 		}

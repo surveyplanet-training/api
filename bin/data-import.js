@@ -10,9 +10,11 @@ const { chain } = require('stream-chain');
 const { parser } = require('stream-json');
 const { pick } = require('stream-json/filters/Pick');
 const { streamArray } = require('stream-json/streamers/StreamArray');
+const { mongoUri } = require('../lib/definitions');
+const mongoose = require('mongoose');
 
 const DATA_URI =
-	'https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_foundation_food_json_2021-10-28.zip';
+	'https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_foundation_food_json_2021-10-28.zip'; //change this to find basic foods
 const DATA_DIR = path.resolve(__dirname, '../data');
 const DATA_FILE = path.basename(DATA_URI, '.zip') + '.json';
 
@@ -93,15 +95,19 @@ function parseData(file) {
 function insertDocument(data) {
 	console.log('\n\n ———————— INSERTING DATA ————————\n\n');
 	console.log(inspect(data, { depth: 1, colors: true }));
-
+	process.exit(0); //this is for outputing one item
 	// 2. TODO: Insert data into 'foods' collections
+	const rawData = {}; //we need model for this object 
+	//await Ingredient.save(rawData);
 }
 
 // Initialize
 (async () => {
 	let dataFile, data;
 
-	// 1. TODO: Connect to MongoDB
+	// 1. TODO: Connect to MongoDB  'mongoose.connect(mongoUri) ); '
+
+	mongoose.connect(mongoUri);
 
 	try {
 		dataFile = await downloadData();
