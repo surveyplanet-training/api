@@ -15,20 +15,31 @@ describe('MenuItem', function () {
 
 	it('should create a menuItem', async function () {
 
-		const options = {
-			user: new ObjectId(),
-			address: {
-				street: '123 Main St',
-				street2: '',
-				city: 'Anytown',
-				state: 'CA',
-				zip: '12345',
-				country: 'US',
-				phone: '555-555-5555',
+		const options = ({
+			user: {
+				_id: '_id213123456789',
+				ref: 'User',
 			},
-			name: 'Test MenuItem',
-			description: 'Testing MenuItem Creation Unit Test',
-		};
+			name : 'test',
+			ingredients: [
+				{
+					_id: '_id123123123123',
+					ref: 'Ingredient',
+				},
+			],
+			description: 'Test menuItem',
+			picture: 'https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png',
+			category: 'Main course',
+			portion: [
+				{
+					size: 350,
+					price: 20,
+					currency: '$',
+				}
+			],
+			tags: ['vegan', 'kosher', 'halal'],
+		
+		});
 
 		const menuItem = new MenuItem(options);
 
