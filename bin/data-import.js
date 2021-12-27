@@ -15,17 +15,26 @@ const { mongoUri } = require('../lib/definitions');
 const mongoose = require('mongoose');
 const Ingredient = require('../lib/models/ingredient.js');
 
+<<<<<<< HEAD
 // const DATA_URI = 'https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_foundation_food_json_2021-10-28.zip'; // Foundational Food Data - 4.3 MB
 // const ROOT_KEY = 'FoundationFoods';
+=======
+//const DATA_URI = 'https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_foundation_food_json_2021-10-28.zip'; // Foundational Food Data - 4.3 MB
+//const ROOT_KEY = 'FoundationFoods';
+>>>>>>> origin/ognjen
 
-// const DATA_URI = 'https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_branded_food_json_2021-10-28.zip'; // Global Branded Foods - 2.6 GB
-// const ROOT_KEY = 'BrandedFoods';
+//const DATA_URI = 'https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_branded_food_json_2021-10-28.zip'; // Global Branded Foods - 2.6 GB
+//const ROOT_KEY = 'BrandedFoods';
 
-// const DATA_URI = 'https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_sr_legacy_food_json_2021-10-28.zip'; // SR Legacy - 205 MB
-// const ROOT_KEY = 'SRLegacyFoods';
+//const DATA_URI = 'https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_sr_legacy_food_json_2021-10-28.zip'; // SR Legacy - 205 MB
+//const ROOT_KEY = 'SRLegacyFoods';
 
+<<<<<<< HEAD
 const DATA_URI =
 	'https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_survey_food_json_2021-10-28.zip'; // Food and Nutrient Database for Dietary Studies (FNDDS) - 84.3 MB
+=======
+const DATA_URI = 'https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_survey_food_json_2021-10-28.zip'; // Food and Nutrient Database for Dietary Studies (FNDDS) - 84.3 MB
+>>>>>>> origin/ognjen
 const ROOT_KEY = 'SurveyFoods';
 
 const DATA_DIR = path.resolve(__dirname, '../data');
@@ -109,6 +118,7 @@ async function insertDocument(data) {
 	console.log('\n\n ———————— INSERTING DATA ————————\n\n');
 	// console.log(inspect(data, { depth: 3, colors: true }));
 	// 2. TODO: Insert data into 'foods' collections
+<<<<<<< HEAD
 	// for (i = 0; i < rawData.length; i++) {
 	// 	ingredient = await Ingredient.create();
 	// 	ingedient[i].name = rawData.description;
@@ -116,12 +126,23 @@ async function insertDocument(data) {
 	// 	console.log(ingredient);
 	//	await Ingredient.save(ingredient);
 	// }
+=======
+	const rawData = {
+		
+	}; //we need model for this object 
+	//await Ingredient.save(data);
+>>>>>>> origin/ognjen
 }
 
 // Initialize
 (async () => {
 	let dataFile, data;
 
+<<<<<<< HEAD
+=======
+	// 1. TODO: Connect to MongoDB  'mongoose.connect(mongoUri) ); 
+
+>>>>>>> origin/ognjen
 	mongoose.connect(mongoUri);
 
 	try {

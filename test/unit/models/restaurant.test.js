@@ -58,6 +58,7 @@ describe('Restaurant', function () {
 		let doc;
 		try {
 			doc = await Restaurant.updateOne(filter, update);
+			
 		} catch (error) {
 			expect(error).to.not.exist;
 		}
@@ -81,7 +82,7 @@ describe('Restaurant', function () {
 		
 
 		expect(doc.name).to.equal('Test Restaurant');
-		expect(doc.description).to.equal('Testing Restaurant Creation Unit Test');
+		expect(doc.description).to.equal('Tested the updating test');
 		expect(doc.address.street).to.equal('123 Main St');
 		expect(doc.address.street2).to.equal('');
 		expect(doc.address.city).to.equal('Anytown');
@@ -89,6 +90,7 @@ describe('Restaurant', function () {
 		expect(doc.address.zip).to.equal('12345');
 		expect(doc.address.country).to.equal('US');
 		expect(doc.address.phone).to.equal('555-555-5555');
+		expect(doc.description).to.be.equal('Tested the updating test');
 
 	});
 
