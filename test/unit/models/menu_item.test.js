@@ -1,3 +1,4 @@
+
 const { expect } = require('chai');
 const { mongoUri } = require('../../../lib/definitions');
 const mongoose = require('mongoose');
@@ -78,7 +79,7 @@ describe('MenuItem', function () {
 		const update = {
 			description: 'Tested the updating test',
 			$push:{
-				tag: ['fasting-friendly']
+				tag: 'fasting-friendly'
 			}
 		};
 
@@ -108,6 +109,7 @@ describe('MenuItem', function () {
 		} catch (error) {
 			expect(error).to.not.exist;
 		}
+		console.log(doc);
 
 		expect(doc).to.exist;
 		expect(doc.name).to.equal('Test Menu Item');
@@ -117,22 +119,26 @@ describe('MenuItem', function () {
 		expect(doc.portion).to.exist;
 		expect(doc.portion).to.be.an('array');
 		expect(doc.portion).to.have.lengthOf(2);
-		expect(doc.portion[0]).to.have.property('size');
+
+		expect(doc.portion[0]).to.not.have.all.keys(
+			'size',
+			'price',
+			'currency',
+		);
 		expect(doc.portion[0].size).to.equal(350);
-		expect(doc.portion[0]).to.have.property('price');
 		expect(doc.portion[0].price).to.equal(20);
-		expect(doc.portion[0]).to.have.property('currency');
 		expect(doc.portion[0].currency).to.equal('USD');
 
-		expect(doc.portion[1]).to.have.property('size');
+		expect(doc.portion[1]).to.not.have.all.keys(
+			'size',
+			'price',
+			'currency',
+		);
 		expect(doc.portion[1].size).to.equal(500);
-		expect(doc.portion[1]).to.have.property('price');
 		expect(doc.portion[1].price).to.equal(30);
-		expect(doc.portion[1]).to.have.property('currency');
 		expect(doc.portion[1].currency).to.equal('USD');
 
 		expect(doc.tags).to.include( 'fasting-friendly' );
-		//expect(doc.ingredients).to.be.deep.equal([
 		
 	});
 
