@@ -12,7 +12,7 @@ describe('MenuItem', function () {
 
 	before( () => mongoose.connect(mongoUri) );
 
-	after(() => mongoose.disconnect());
+	after( () => mongoose.disconnect() );
 
 	it('should create a menuItem', async function () {
 
@@ -23,13 +23,16 @@ describe('MenuItem', function () {
 			name : 'Test Menu Item',
 			ingredients: [
 				{
-					_id: new ObjectId(),
+					ingredient: new ObjectId(),
+					grams: 100,
 				},
 				{
-					_id: new ObjectId(),	 
+					ingredient: new ObjectId(),	 
+					grams: 100,
 				},
 				{
-					_id: new ObjectId(), 
+					ingredient: new ObjectId(), 
+					grams: 100,
 				},
 			],
 			description: 'This is a test menu item description',
@@ -79,7 +82,7 @@ describe('MenuItem', function () {
 		const update = {
 			description: 'Tested the updating test',
 			$push:{
-				tag: 'fasting-friendly'
+				tags: 'fasting-friendly'
 			}
 		};
 
@@ -109,7 +112,6 @@ describe('MenuItem', function () {
 		} catch (error) {
 			expect(error).to.not.exist;
 		}
-		console.log(doc);
 
 		expect(doc).to.exist;
 		expect(doc.name).to.equal('Test Menu Item');
