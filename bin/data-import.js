@@ -174,6 +174,18 @@ function paseSurveyFoods(data) {
 		}
 	}
 
+	let lipids = data.foodNutrients.find((item) => item.nutrient.id == 1004);
+
+	if (lipids) {
+		if (lipids.amount) {
+			ingredient.lipids.amount = lipids.amount;
+		}
+
+		if (lipids.nutrient && lipids.nutrient.unitName) {
+			ingredient.lipids.unit = lipids.nutrient.unitName;
+		}
+	}
+
 	let carbohydrates = data.foodNutrients.find(
 		(item) => item.nutrient.id == 1005
 	);
@@ -200,15 +212,15 @@ function paseSurveyFoods(data) {
 		}
 	}
 
-	let choline = data.foodNutrients.find((item) => item.nutrient.id == 1079);
+	let fibers = data.foodNutrients.find((item) => item.nutrient.id == 1079);
 
-	if (choline) {
-		if (choline.amount) {
-			ingredient.choline.amount = choline.amount;
+	if (fibers) {
+		if (fibers.amount) {
+			ingredient.fibers.amount = fibers.amount;
 		}
 
-		if (choline.nutrient && choline.nutrient.unitName) {
-			ingredient.choline.unit = choline.nutrient.unitName;
+		if (fibers.nutrient && fibers.nutrient.unitName) {
+			ingredient.fibers.unit = fibers.nutrient.unitName;
 		}
 	}
 
