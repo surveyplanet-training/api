@@ -53,6 +53,8 @@ if (argv.h || argv.help) {
 // const arg1 = argv._[0] || argv.arg1 || argv.a;
 const verbose = argv.v || argv.verbose;
 
+let counter = 0;
+
 // Download data from USDA and save file to DATA_DIR
 async function downloadData(uri = DATA_URI) {
 	// if (fs.existsSync)
@@ -84,7 +86,7 @@ async function downloadData(uri = DATA_URI) {
 function parseData(file) {
 	console.log(`Parsing data from ${file}`);
 
-	let counter = 0;
+
 
 	return new Promise(function (resolve, reject) {
 		const pipeline = chain([
@@ -93,7 +95,6 @@ function parseData(file) {
 			pick({ filter: ROOT_KEY }),
 			streamArray(),
 			(data) => {
-				counter++;
 				return insertDocument(data.value);
 			},
 		]);
@@ -109,15 +110,27 @@ function parseData(file) {
 }
 
 async function insertDocument(data) {
-	console.log('\n\n ———————— INSERTING DATA ————————\n\n');
+	// console.log('\n\n ———————— INSERTING DATA ————————\n\n');
 	// console.log(inspect(data, { depth: 3, colors: true }));
 	// 2. TODO: Insert data into 'foods' collections
 
+	counter++;
+
 	let parsedData = parseSurveyFoods(data);
 
-	const ingredient = new Ingredient(parsedData);
-	await ingredient.save();
-	console.log(ingredient);
+	if (verbose) {
+		console.log(`${counter} - Inserting: ${parsedData.code}`);
+	}
+
+	return await Ingredient.findOneAndUpdate(
+		{ code: parsedData.code }, 
+		parsedData, 
+		{
+			new: true,
+			upsert: true // Make this update into an upsert
+		}
+	);
+
 }
 
 // parseFoundationFoods () {}
@@ -129,6 +142,9 @@ async function insertDocument(data) {
 	let dataFile, data;
 
 	// 1. TODO: Connect to MongoDB  'mongoose.connect(mongoUri) );
+	if (verbose) {
+		console.time('import');
+	}
 
 	mongoose.connect(mongoUri);
 
@@ -144,7 +160,12 @@ async function insertDocument(data) {
 		return Promise.reject(err);
 	}
 
+	if (verbose) {
+		console.timeEnd('import');
+	}
+
 	return data;
+
 })()
 	.then((result) => {
 		console.log('Success!');
