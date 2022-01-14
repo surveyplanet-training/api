@@ -23,15 +23,11 @@ describe('MenuItem', function () {
 			name : 'Test Menu Item',
 			ingredients: [
 				{
-					ingredient: new ObjectId(),
+					ingredient:'61e1cb34e22cfb02976e3606', //Bacon and cheese sandwich, with spread'
 					grams: 100,
 				},
 				{
-					ingredient: new ObjectId(),	 
-					grams: 100,
-				},
-				{
-					ingredient: new ObjectId(), 
+					ingredient: '61e1cb34e22cfb02976e3610',	//Beef and potatoes with cheese sauce'
 					grams: 100,
 				},
 			],
@@ -40,12 +36,12 @@ describe('MenuItem', function () {
 			category: 'Main course',
 			portion: [
 				{
-					size: 350,
+					grams: 350,
 					price: 20,
 					currency: 'USD'
 				},
 				{
-					size: 500,
+					grams: 500,
 					price: 30,
 					currency: 'USD'
 				},
@@ -71,6 +67,8 @@ describe('MenuItem', function () {
 		expect(doc.category).to.be.equal('Main course');
 		expect(doc.user).to.be.equal(options.user);
 		expect(doc.tags).to.be.eql(tags);
+		expect(doc.portion).to.have.length(2);
+		
 
 		menuItemId = doc._id;
 		
@@ -116,8 +114,6 @@ describe('MenuItem', function () {
 		expect(doc).to.exist;
 		expect(doc.name).to.equal('Test Menu Item');
 		expect(doc.description).to.equal('Tested the updating test');
-		expect(doc.picture).to.equal('https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png');
-		expect(doc.category).to.equal('Main course');
 		expect(doc.portion).to.exist;
 		expect(doc.portion).to.be.an('array');
 		expect(doc.portion).to.have.lengthOf(2);

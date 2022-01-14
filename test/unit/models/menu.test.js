@@ -17,19 +17,11 @@ describe('Menu', function () {
 
 		const options = {
 			user: new ObjectId(),
-			language: { type: String, default: 'en' },
 			name: 'Test Menu',
 			items: [
-				{
-					type: ObjectId,
-					//1
-					//2
-					//3
-				},
-				
 			],
-			showIngredients: Boolean,
-			showAmmounts: Boolean,
+			showIngredients: true,
+			showAmounts: true,
 		};
 		
 
@@ -42,13 +34,24 @@ describe('Menu', function () {
 		} catch (error) {
 			expect(error).to.not.exist;
 		}
+		console.log(doc);
 
 		expect(doc).to.exist;
-		expect(doc).to.have.property('_id');
+		expect(doc.toObject()).to.have.any.keys(
+			'_id',
+			'user',
+			'name',
+			'items',
+			'showIngredients',
+			'showAmounts',
+			'language',
+		); 
 		expect(doc._id).to.be.instanceOf(ObjectId);
-		expect(doc).to.have.property('user');
 		expect(doc.user).to.be.equal(options.user);
-
+		expect(doc.name).to.be.equal(options.name);
+		expect(doc.items).to.be.instanceOf(Array);
+		expect(doc.showIngredients).to.be.equals(true);
+		expect(doc.showAmounts).to.be.equals(true);
 		menuId = doc._id;
 		
 	});
@@ -56,17 +59,27 @@ describe('Menu', function () {
 	it('should update a menu', async function () {
 
 		const filter = { _id: menuId };
-		const update = { description: 'Tested the updating test' };
-
+		const update = { name: 'name2' };
+		console.log(filter);
 		let doc;
 		try {
 			doc = await Menu.updateOne(filter, update);
 		} catch (error) {
 			expect(error).to.not.exist;
 		}
+		console.log(doc);
+		
+		expect(doc).to.exist;
+		expect(doc).to.have.any.keys(
+			'acknowledged',
+			'matchedCount',
+			'modifiedCount',
+			'upsertedId',
+			'upsertedCount',
+		); 
+		expect(doc.acknowledged).to.be.true;
 		expect(doc.matchedCount).to.be.equal(1);
 		expect(doc.modifiedCount).to.be.equal(1);
-		expect(doc.acknowledged).to.be.true;
 		expect(doc.upsertedId).to.be.null;
 		expect(doc.upsertedCount).to.be.equal(0);
 	
@@ -82,16 +95,10 @@ describe('Menu', function () {
 			expect(error).to.not.exist;
 		}
 		
+		expect(doc).to.exist;
+		expect(doc).to.have.property('name');
+		expect(doc.name).to.equal('name2');
 
-		expect(doc.name).to.equal('Test Menu');
-		expect(doc.description).to.equal('Testing Menu Creation Unit Test');
-		expect(doc.address.street).to.equal('123 Main St');
-		expect(doc.address.street2).to.equal('');
-		expect(doc.address.city).to.equal('Anytown');
-		expect(doc.address.state).to.equal('CA');
-		expect(doc.address.zip).to.equal('12345');
-		expect(doc.address.country).to.equal('US');
-		expect(doc.address.phone).to.equal('555-555-5555');
 
 	});
 
@@ -104,7 +111,8 @@ describe('Menu', function () {
 		} catch (error) {
 			expect(error).to.not.exist;
 		}
-
+		expect(doc).to.exist;
+		expect(doc).to.have.property('deletedCount');
 		expect(doc.deletedCount).to.be.equal(1);
 		
 	});
