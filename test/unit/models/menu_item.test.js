@@ -23,11 +23,11 @@ describe('MenuItem', function () {
 			name : 'Test Menu Item',
 			ingredients: [
 				{
-					ingredient:'61e1cb34e22cfb02976e3606', //Bacon and cheese sandwich, with spread'
+					ingredient:'61e1cb34e22cfb02976e3610', //Bacon and cheese sandwich, with spread'
 					grams: 100,
 				},
 				{
-					ingredient: '61e1cb34e22cfb02976e3610',	//Beef and potatoes with cheese sauce'
+					ingredient: '61e1cb34e22cfb02976e361a',	//Beef and potatoes with cheese sauce'
 					grams: 100,
 				},
 			],
@@ -118,21 +118,23 @@ describe('MenuItem', function () {
 		expect(doc.portion).to.be.an('array');
 		expect(doc.portion).to.have.lengthOf(2);
 
-		expect(doc.portion[0]).to.not.have.all.keys(
-			'size',
+		expect(doc.portion[0].toObject()).to.have.all.keys(
+			'grams',
 			'price',
 			'currency',
+			'_id'
 		);
-		expect(doc.portion[0].size).to.equal(350);
+		expect(doc.portion[0].grams).to.equal(350);
 		expect(doc.portion[0].price).to.equal(20);
 		expect(doc.portion[0].currency).to.equal('USD');
 
-		expect(doc.portion[1]).to.not.have.all.keys(
-			'size',
+		expect(doc.portion[1].toObject()).to.have.all.keys(
+			'grams',
 			'price',
 			'currency',
+			'_id'
 		);
-		expect(doc.portion[1].size).to.equal(500);
+		expect(doc.portion[1].grams).to.equal(500);
 		expect(doc.portion[1].price).to.equal(30);
 		expect(doc.portion[1].currency).to.equal('USD');
 

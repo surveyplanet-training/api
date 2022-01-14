@@ -34,7 +34,6 @@ describe('Menu', function () {
 		} catch (error) {
 			expect(error).to.not.exist;
 		}
-		console.log(doc);
 
 		expect(doc).to.exist;
 		expect(doc.toObject()).to.have.any.keys(
@@ -60,14 +59,12 @@ describe('Menu', function () {
 
 		const filter = { _id: menuId };
 		const update = { name: 'name2' };
-		console.log(filter);
 		let doc;
 		try {
 			doc = await Menu.updateOne(filter, update);
 		} catch (error) {
 			expect(error).to.not.exist;
 		}
-		console.log(doc);
 		
 		expect(doc).to.exist;
 		expect(doc).to.have.any.keys(
@@ -117,5 +114,5 @@ describe('Menu', function () {
 		
 	});
 
-	
+
 });
