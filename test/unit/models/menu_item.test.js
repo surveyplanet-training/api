@@ -1,3 +1,4 @@
+
 const { expect } = require('chai');
 const { mongoUri } = require('../../../lib/definitions');
 const mongoose = require('mongoose');
@@ -11,7 +12,7 @@ describe('MenuItem', function () {
 
 	before( () => mongoose.connect(mongoUri) );
 
-	after(() => mongoose.disconnect());
+	after( () => mongoose.disconnect() );
 
 	it('should create a menuItem', async function () {
 
@@ -22,13 +23,12 @@ describe('MenuItem', function () {
 			name : 'Test Menu Item',
 			ingredients: [
 				{
-					_id: new ObjectId(),
+					ingredient:'61e1cb34e22cfb02976e3610', //Bacon and cheese sandwich, with spread'
+					grams: 100,
 				},
 				{
-					_id: new ObjectId(),	 
-				},
-				{
-					_id: new ObjectId(), 
+					ingredient: '61e1cb34e22cfb02976e361a',	//Beef and potatoes with cheese sauce'
+					grams: 100,
 				},
 			],
 			description: 'This is a test menu item description',
@@ -36,12 +36,12 @@ describe('MenuItem', function () {
 			category: 'Main course',
 			portion: [
 				{
-					size: 350,
+					grams: 350,
 					price: 20,
 					currency: 'USD'
 				},
 				{
-					size: 500,
+					grams: 500,
 					price: 30,
 					currency: 'USD'
 				},
@@ -67,6 +67,8 @@ describe('MenuItem', function () {
 		expect(doc.category).to.be.equal('Main course');
 		expect(doc.user).to.be.equal(options.user);
 		expect(doc.tags).to.be.eql(tags);
+		expect(doc.portion).to.have.length(2);
+		
 
 		menuItemId = doc._id;
 		
@@ -78,7 +80,7 @@ describe('MenuItem', function () {
 		const update = {
 			description: 'Tested the updating test',
 			$push:{
-				tag: ['fasting-friendly']
+				tags: 'fasting-friendly'
 			}
 		};
 
@@ -112,27 +114,31 @@ describe('MenuItem', function () {
 		expect(doc).to.exist;
 		expect(doc.name).to.equal('Test Menu Item');
 		expect(doc.description).to.equal('Tested the updating test');
-		expect(doc.picture).to.equal('https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png');
-		expect(doc.category).to.equal('Main course');
 		expect(doc.portion).to.exist;
 		expect(doc.portion).to.be.an('array');
 		expect(doc.portion).to.have.lengthOf(2);
-		expect(doc.portion[0]).to.have.property('size');
-		expect(doc.portion[0].size).to.equal(350);
-		expect(doc.portion[0]).to.have.property('price');
+
+		expect(doc.portion[0].toObject()).to.have.all.keys(
+			'grams',
+			'price',
+			'currency',
+			'_id'
+		);
+		expect(doc.portion[0].grams).to.equal(350);
 		expect(doc.portion[0].price).to.equal(20);
-		expect(doc.portion[0]).to.have.property('currency');
 		expect(doc.portion[0].currency).to.equal('USD');
 
-		expect(doc.portion[1]).to.have.property('size');
-		expect(doc.portion[1].size).to.equal(500);
-		expect(doc.portion[1]).to.have.property('price');
+		expect(doc.portion[1].toObject()).to.have.all.keys(
+			'grams',
+			'price',
+			'currency',
+			'_id'
+		);
+		expect(doc.portion[1].grams).to.equal(500);
 		expect(doc.portion[1].price).to.equal(30);
-		expect(doc.portion[1]).to.have.property('currency');
 		expect(doc.portion[1].currency).to.equal('USD');
 
 		expect(doc.tags).to.include( 'fasting-friendly' );
-		//expect(doc.ingredients).to.be.deep.equal([
 		
 	});
 
