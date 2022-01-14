@@ -17,18 +17,21 @@ describe('Menu', function () {
 
 		const options = {
 			user: new ObjectId(),
-			address: {
-				street: '123 Main St',
-				street2: '',
-				city: 'Anytown',
-				state: 'CA',
-				zip: '12345',
-				country: 'US',
-				phone: '555-555-5555',
-			},
+			language: { type: String, default: 'en' },
 			name: 'Test Menu',
-			description: 'Testing Menu Creation Unit Test',
+			items: [
+				{
+					type: ObjectId,
+					//1
+					//2
+					//3
+				},
+				
+			],
+			showIngredients: Boolean,
+			showAmmounts: Boolean,
 		};
+		
 
 		const menu = new Menu(options);
 
