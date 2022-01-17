@@ -18,7 +18,7 @@ describe(' Theme', function () {
 		const options = new Schema({
             name: 'theme1',
             font: 'helvetica',
-            css: 'this is an imaginarie css code',
+            css: 'this is an imaginary css code',
             template: true
             user: { type: ObjectId, ref: 'User' },
         });

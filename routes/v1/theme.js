@@ -1,6 +1,6 @@
 const { ObjectId } = require('mongodb');
 
-const Menu = require('../../lib/models/theme');
+const User = require('../../lib/models/theme');
 
 module.exports = function (router) {
 
@@ -17,7 +17,7 @@ module.exports = function (router) {
 		let theme;
 
 		try {
-			theme = await Menu.findOne(query);
+			theme = await User.findOne(query);
 		} catch (err) {
 			next(err);
 		}
@@ -25,25 +25,6 @@ module.exports = function (router) {
 		response.json(theme || {});
 
 	});
-
-	// Update a theme item
-
-	router.put('/theme/:id', async (request, response, next) => {
-
-	});
-
-	// Save new theme item
-
-	router.post('/theme', async (request, response, next) => {
-		
-	});
-
-	// Delete a theme item
-
-	router.delete('/theme/:id', async (request, response, next) => {
-		
-	});
-
 
 	router.get('/themes', async (request, response, next) => {
 
@@ -59,7 +40,7 @@ module.exports = function (router) {
 		}
 
 		try {
-			themes = await Menu.find(query).limit(10);
+			themes = await User.find(query).limit(10);
 		} catch (err) {
 			return Promise.reject(err);
 		}
