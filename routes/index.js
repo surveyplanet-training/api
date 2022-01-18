@@ -7,10 +7,10 @@ const EXCLUDE = [];
 
 module.exports = function () {
 	let files = fs.readdirSync(`${__dirname}/v1`) || [];
-
 	for (let file of files) {
 		if (!EXCLUDE.includes(file) && path.extname(file) === '.js') {
-			require(`./v1/${file}`)(router);
+			const routes = path.resolve('./routes/v1', file);
+			require(routes)(router);
 		}
 	}
 

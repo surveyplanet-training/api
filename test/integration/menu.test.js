@@ -1,47 +1,56 @@
 const { expect } = require('chai');
+const { ObjectId } = require('mongoose').Types;
 const request = require('supertest');
+const mongoose = require('mongoose');
 const app = require('../../app');
 
-describe('Menu API', function() {
+describe('Menu', function() {
 
 	let menuCache;
+
+	after( () => mongoose.disconnect() );
 	
-		
 	it('should create a menu', async function() {
 
 		const data = {
-			user: '',
-			language: '',
-			name: '',
-			items: '',
-			showIngredients: '',
-			showAmounts: '',
+			user: new ObjectId(),
+			name: 'Integration Test Menu',
+			items: [],
+			showIngredients: true,
+			showAmounts: true,
 		};
 
 		const response = await request(app)
-			.post('/menu')
+			.post('/v1/menu')
 			.send(data);
 
-		expect(response.body).to.have.all.keys('header', 'status', 'body');
-		expect(response.headers['Content-Type']).toMatch(/json/);
-		expect(response.status).toEqual(200);
-		expect(response.body).to.have.all.keys(
-			'user',
-			'language',
-			'name',
-			'items',
-			'showIngredients',
-			'showAmounts',
-		);
-		expect(response.body.user).to.equal('');
-		expect(response.body.language).to.equal('');
-		expect(response.body.name).to.equal('');
-		expect(response.body.items).to.equal('');
-		expect(response.body.showIngredients).to.equal('');
-		expect(response.body.showAmounts).to.equal('');
 
+		expect(response).to.have.property('header');
+		expect(response).to.have.property('status');
+		expect(response).to.have.property('body');
+
+		expect(response.headers['content-type']).to.match(/^application\/json/);
+		expect(response.status).to.equal(200);
+		console.log(response.body);
+
+		expect(response.body).to.have.property('user');
+		expect(response.body).to.have.property('language');
+		expect(response.body).to.have.property('name');
+		expect(response.body).to.have.property('items');
+		expect(response.body).to.have.property('showIngredients');
+		expect(response.body).to.have.property('showAmounts');
 
 		menuCache = response.body;
+		expect(response.body.user).to.equal( data.user.toString() );
+		expect(response.body.language).to.equal('en');
+		expect(response.body.name).to.equal(data.name);
+		expect(response.body.items).to.be.an.instanceof(Array)
+			.that.is.empty;
+		expect(response.body.showIngredients).to.equal(data.showIngredients);
+		expect(response.body.showAmounts).to.equal(data.showAmounts);
+
+		return Promise.resolve();
+
 	});
 
 	it('should update a menu', async function() {
