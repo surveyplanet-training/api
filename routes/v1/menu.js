@@ -63,22 +63,38 @@ module.exports = function (router) {
 
 	// Delete a menu item
 
-	router.delete('/menu/:id', async (request, response, next) => {});
+	router.delete('/menu/:id', async (request, response, next) => {
+		if (!ObjectId.isValid(request.params.id)) {
+			return response.status(401);
+		}
+
+		const query = {
+			_id: ObjectId(request.params.id),
+		};
+
+		let menu;
+
+		try {
+			menu = await Menu.deleteOne(query);
+		} catch (err) {
+			next(err);
+		}
+
+		response.json(menu || {});
+	});
 
 	router.get('/menus', async (request, response, next) => {
 		let menus,
 			query = {};
 
-		if (ObjectId.isValid(request.query.after)) {
+		if (ObjectId.isValid(request.query.user)) {
 			query = {
-				_id: {
-					$gt: ObjectId(request.query.after),
-				},
+				user: ObjectId(request.query.user),
 			};
 		}
 
 		try {
-			menus = await Menu.find(query).limit(10);
+			menus = await Menu.find(query);
 		} catch (err) {
 			return Promise.reject(err);
 		}

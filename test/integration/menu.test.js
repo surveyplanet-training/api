@@ -79,14 +79,41 @@ describe('Menu', function () {
 
 		menuCache = response.body;
 		expect(response.body.user).to.equal(menuCache.user.toString());
-		expect(response.body.language).to.equal('en');
+		expect(response.body.language).to.equal(menuCache.language);
 		expect(response.body.name).to.equal(menuCache.name);
 		expect(response.body.items).to.be.an.instanceof(Array).that.is.empty;
 		expect(response.body.showIngredients).to.equal(menuCache.showIngredients);
 		expect(response.body.showAmounts).to.equal(menuCache.showAmounts);
 	});
 
-	it('should retrieve all menus for a user', async function () {});
+	it('should retrieve all menus for a user', async function () {
+		const response = await request(app)
+			.get(`/v1/menus`)
+			.query({ user: menuCache.user });
 
-	it('should delete a menu', async function () {});
+		expect(response).to.have.property('header');
+		expect(response).to.have.property('status');
+		expect(response).to.have.property('body');
+
+		expect(response.body).to.be.an.instanceOf(Array);
+		expect(response.body).to.have.lengthOf(1);
+
+		expect(response.body[0].user).to.equal(menuCache.user.toString());
+		expect(response.body[0].language).to.equal(menuCache.language);
+		expect(response.body[0].name).to.equal(menuCache.name);
+		expect(response.body[0].items).to.be.an.instanceof(Array).that.is.empty;
+		expect(response.body[0].showIngredients).to.equal(
+			menuCache.showIngredients
+		);
+		expect(response.body[0].showAmounts).to.equal(menuCache.showAmounts);
+	});
+	it('should delete a menu', async function () {
+		const response = await request(app).delete(`/v1/menu/${menuCache._id}`);
+
+		expect(response).to.have.property('header');
+		expect(response).to.have.property('status');
+		expect(response).to.have.property('body');
+
+		expect(response.body).to.eql({ deletedCount: 1 });
+	});
 });
