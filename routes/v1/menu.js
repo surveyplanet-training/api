@@ -27,15 +27,45 @@ module.exports = function (router) {
 	});
 
 	// Update a menu item
-
 	router.put('/menu/:id', async (request, response, next) => {
+
+		if (!ObjectId.isValid(request.params.id)) {
+			return response.status(401);
+		}
+
+		const query = {
+			_id: ObjectId(request.params.id),
+		};
+
+		let menu;
+
+		try {
+			menu = await Menu.fineOneAndUpdate(query, request.body, {new:true});
+		} catch (err) {
+			next(err);
+		}
+
+		response.json(menu || {});
 
 	});
 
 	// Save new menu item
 
 	router.post('/menu', async (request, response, next) => {
-		
+
+		const menu = new Menu(request.body);
+
+		let doc;
+
+		try {
+			doc = await menu.save();
+		} catch (err) {
+			console.error(err);
+			response(500);
+		}
+
+		return response.json(doc);
+
 	});
 
 	// Delete a menu item

@@ -1,13 +1,15 @@
 const express = require('express');
 const config = require('./env');
 const mongoose = require('mongoose');
-const { mongoUri } = require('/lib/definitions');
-
-const app = express();
+const { mongoUri } = require('./lib/definitions');
+const bodyParser = require('body-parser')
 
 mongoose.connect(mongoUri);
 
+const app = express();
+
 app.set('port', config.port || 8080); // use: app.get('port')
+app.use( bodyParser.json() );
 
 let routes = require('./routes/index');
 

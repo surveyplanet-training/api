@@ -13,6 +13,7 @@ describe('Menu', function () {
 
 	after(() => mongoose.disconnect());
 
+
 	it('should create a menu', async function () {
 
 		const options = {
@@ -36,7 +37,7 @@ describe('Menu', function () {
 		}
 
 		expect(doc).to.exist;
-		expect(doc.toObject()).to.have.any.keys(
+		expect(doc.toObject()).to.have.all.keys(
 			'_id',
 			'user',
 			'name',
