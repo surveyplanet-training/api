@@ -24,12 +24,8 @@ module.exports = function (router) {
 			return response.status(404).send('Not Found');
 		}
 
-<<<<<<< HEAD
 		response.json(menu);
 
-=======
-		response.json(menu || {});
->>>>>>> origin/luka
 	});
 
 	// Update a menu item
@@ -45,11 +41,7 @@ module.exports = function (router) {
 		let menu;
 
 		try {
-<<<<<<< HEAD
-			menu = await Menu.findOneAndUpdate(query, request.body, {new:true});
-=======
 			menu = await Menu.findOneAndUpdate(query, request.body, { new: true });
->>>>>>> origin/luka
 		} catch (err) {
 			next(err);
 		}
@@ -76,15 +68,8 @@ module.exports = function (router) {
 
 	// Delete a menu item
 
-<<<<<<< HEAD
-	router.delete('/menu/:id', async (request, response, next) => {	
-	});
-
-	// Get a list of menus
-=======
 	router.delete('/menu/:id', async (request, response, next) => {});
 
->>>>>>> origin/luka
 	router.get('/menus', async (request, response, next) => {
 		let menus,
 			query = {};
