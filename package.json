@@ -29,6 +29,7 @@
 		"nodemon": "^2.0.15",
 		"stream-chain": "^2.2.4",
 		"stream-json": "^1.7.3",
+		"supertest": "^6.2.1",
 		"unzipper": "^0.10.11"
 	}
 }
