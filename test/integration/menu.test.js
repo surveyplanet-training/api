@@ -4,14 +4,12 @@ const request = require('supertest');
 const mongoose = require('mongoose');
 const app = require('../../app');
 
-describe('Menu', function() {
-
+describe('Menu', function () {
 	let menuCache;
 
-	after( () => mongoose.disconnect() );
-	
-	it('should create a menu', async function() {
+	after(() => mongoose.disconnect());
 
+	it('should create a menu', async function () {
 		const data = {
 			user: new ObjectId(),
 			name: 'Integration Test Menu',
@@ -20,10 +18,7 @@ describe('Menu', function() {
 			showAmounts: true,
 		};
 
-		const response = await request(app)
-			.post('/v1/menu')
-			.send(data);
-
+		const response = await request(app).post('/v1/menu').send(data);
 
 		expect(response).to.have.property('header');
 		expect(response).to.have.property('status');
@@ -31,7 +26,6 @@ describe('Menu', function() {
 
 		expect(response.headers['content-type']).to.match(/^application\/json/);
 		expect(response.status).to.equal(200);
-		console.log(response.body);
 
 		expect(response.body).to.have.property('user');
 		expect(response.body).to.have.property('language');
@@ -41,27 +35,31 @@ describe('Menu', function() {
 		expect(response.body).to.have.property('showAmounts');
 
 		menuCache = response.body;
-		expect(response.body.user).to.equal( data.user.toString() );
+		expect(response.body.user).to.equal(data.user.toString());
 		expect(response.body.language).to.equal('en');
 		expect(response.body.name).to.equal(data.name);
-		expect(response.body.items).to.be.an.instanceof(Array)
-			.that.is.empty;
+		expect(response.body.items).to.be.an.instanceof(Array).that.is.empty;
 		expect(response.body.showIngredients).to.equal(data.showIngredients);
 		expect(response.body.showAmounts).to.equal(data.showAmounts);
 
 
 	});
 
-	it('should update a menu', async function() {
-
-		const data = {};
+	it('should update a menu', async function () {
+		const data = { name: 'updated name' };
 		const response = await request(app)
-			.put('/menu')
+			.put(`/v1/menu/${menuCache._id}`)
 			.send(data);
-		expect(response.body).to.have.all.keys('header', 'status', 'body');
-		expect(response.headers['Content-Type']).toMatch(/json/);
-		expect(response.status).toEqual(200);
+		expect(response).to.have.property('header');
+		expect(response).to.have.property('status');
+		expect(response).to.have.property('body');
 
+		expect(response.body.user).to.equal(menuCache.user.toString());
+		expect(response.body.language).to.equal(menuCache.language);
+		expect(response.body.name).to.equal(data.name);
+		expect(response.body.items).to.be.an.instanceof(Array).that.is.empty;
+		expect(response.body.showIngredients).to.equal(menuCache.showIngredients);
+		expect(response.body.showAmounts).to.equal(menuCache.showAmounts);
 	});
 
 	it('should retrieve a menu', async function() {
@@ -93,12 +91,7 @@ describe('Menu', function() {
 
 	});
 
-	it('should retrieve all menus for a user', async function() {
+	it('should retrieve all menus for a user', async function () {});
 
-	});
-
-	it('should delete a menu', async function() {
-
-	});
-
+	it('should delete a menu', async function () {});
 });

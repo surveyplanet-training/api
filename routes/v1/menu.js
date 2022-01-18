@@ -3,9 +3,7 @@ const { ObjectId } = require('mongodb');
 const Menu = require('../../lib/models/menu');
 
 module.exports = function (router) {
-
 	router.get('/menu/:id', async (request, response, next) => {
-
 		if (!ObjectId.isValid(request.params.id)) {
 			return response.status(404).send('Not Found');
 		}
@@ -32,7 +30,6 @@ module.exports = function (router) {
 
 	// Update a menu item
 	router.put('/menu/:id', async (request, response, next) => {
-
 		if (!ObjectId.isValid(request.params.id)) {
 			return response.status(401);
 		}
@@ -44,19 +41,17 @@ module.exports = function (router) {
 		let menu;
 
 		try {
-			menu = await Menu.fineOneAndUpdate(query, request.body, {new:true});
+			menu = await Menu.findOneAndUpdate(query, request.body, { new: true });
 		} catch (err) {
 			next(err);
 		}
 
 		response.json(menu || {});
-
 	});
 
 	// Save new menu item
 
 	router.post('/menu', async (request, response, next) => {
-
 		const menu = new Menu(request.body);
 
 		let doc;
@@ -69,7 +64,6 @@ module.exports = function (router) {
 		}
 
 		return response.json(doc);
-
 	});
 
 	// Delete a menu item
@@ -79,7 +73,6 @@ module.exports = function (router) {
 
 	// Get a list of menus
 	router.get('/menus', async (request, response, next) => {
-
 		let menus,
 			query = {};
 
@@ -101,5 +94,4 @@ module.exports = function (router) {
 	});
 
 	return router;
-
 };
