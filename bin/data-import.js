@@ -12,7 +12,7 @@ const { pick } = require('stream-json/filters/Pick');
 const { streamArray } = require('stream-json/streamers/StreamArray');
 const { mongoUri } = require('../lib/definitions');
 const mongoose = require('mongoose');
-const parseSurveyFoods = require('../lib/parseSurveyFoods');
+const parseSurveyFoods = require('../lib/parse_survey_foods');
 const Ingredient = require('../lib/models/ingredient.js');
 
 //const DATA_URI = 'https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_foundation_food_json_2021-10-28.zip'; // Foundational Food Data - 4.3 MB
@@ -113,8 +113,6 @@ async function insertDocument(data) {
 	// console.log('\n\n ———————— INSERTING DATA ————————\n\n');
 	// console.log(inspect(data, { depth: 3, colors: true }));
 	// 2. TODO: Insert data into 'foods' collections
-
-	counter++;
 
 	let parsedData = parseSurveyFoods(data);
 
