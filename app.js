@@ -2,7 +2,7 @@ const express = require('express');
 const config = require('./env');
 const mongoose = require('mongoose');
 const { mongoUri } = require('./lib/definitions');
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
 
 mongoose.connect(mongoUri);
 
