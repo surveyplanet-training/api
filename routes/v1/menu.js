@@ -19,10 +19,14 @@ module.exports = function (router) {
 		try {
 			menu = await Menu.findOne(query);
 		} catch (err) {
-			next(err);
+			console.error(err);
+			return response.status(500);
+		}
+		if (!menu) {
+			return response.status(404).send('Not Found');
 		}
 
-		response.json(menu || {});
+		response.json(menu);
 
 	});
 
@@ -70,11 +74,10 @@ module.exports = function (router) {
 
 	// Delete a menu item
 
-	router.delete('/menu/:id', async (request, response, next) => {
-		
+	router.delete('/menu/:id', async (request, response, next) => {	
 	});
 
-
+	// Get a list of menus
 	router.get('/menus', async (request, response, next) => {
 
 		let menus,
