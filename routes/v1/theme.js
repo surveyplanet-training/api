@@ -1,10 +1,10 @@
 const { ObjectId } = require('mongodb');
 
-const User = require('../../lib/models/user');
+const User = require('../../lib/models/theme');
 
 module.exports = function (router) {
 
-	router.get('/user/:id', async (request, response, next) => {
+	router.get('/theme/:id', async (request, response, next) => {
 
 		if (!ObjectId.isValid(request.params.id)) {
 			return response.status(404).send('Not Found');
@@ -14,21 +14,21 @@ module.exports = function (router) {
 			_id: ObjectId(request.params.id),
 		};
 
-		let user;
+		let theme;
 
 		try {
-			user = await User.findOne(query);
+			theme = await User.findOne(query);
 		} catch (err) {
 			next(err);
 		}
 
-		response.json(user || {});
+		response.json(theme || {});
 
 	});
 
-	router.get('/users', async (request, response, next) => {
+	router.get('/themes', async (request, response, next) => {
 
-		let users,
+		let themes,
 			query = {};
 
 		if (ObjectId.isValid(request.query.after)) {
@@ -40,12 +40,12 @@ module.exports = function (router) {
 		}
 
 		try {
-			users = await User.find(query).limit(10);
+			themes = await User.find(query).limit(10);
 		} catch (err) {
 			return Promise.reject(err);
 		}
 
-		response.json(users || []);
+		response.json(themes || []);
 	});
 
 	return router;

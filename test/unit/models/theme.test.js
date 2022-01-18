@@ -2,42 +2,40 @@ const { expect } = require('chai');
 const { mongoUri } = require('../../../lib/definitions');
 const mongoose = require('mongoose');
 const { ObjectId } = mongoose.Types;
-const Menu = require('../../../lib/models/menu.js');
+const  Theme = require('../../../lib/models/theme.js');
 
 
-describe('Menu', function () {
+describe(' Theme', function () {
 
-	let menuId;
+	let themeId;
 
 	before( () => mongoose.connect(mongoUri) );
 
 	after(() => mongoose.disconnect());
 
+	it('should create a theme', async function () {
 
-	it('should create a menu', async function () {
-
-		const options = {
-			user: new ObjectId(),
-			name: 'Test Menu',
-			items: [
-			],
-			showIngredients: true,
-			showAmounts: true,
-		};
+		const options = new Schema({
+            name: 'theme1',
+            font: 'helvetica',
+            css: 'this is an imaginary css code',
+            template: true
+            user: { type: ObjectId, ref: 'User' },
+        });
 		
 
-		const menu = new Menu(options);
+		const theme = new  Theme(options);
 
 		let doc;
 
 		try {
-			doc = await menu.save();
+			doc = await theme.save();
 		} catch (error) {
 			expect(error).to.not.exist;
 		}
 
 		expect(doc).to.exist;
-		expect(doc.toObject()).to.have.all.keys(
+		expect(doc.toObject()).to.have.any.keys(
 			'_id',
 			'user',
 			'name',
@@ -52,17 +50,17 @@ describe('Menu', function () {
 		expect(doc.items).to.be.instanceOf(Array);
 		expect(doc.showIngredients).to.be.equals(true);
 		expect(doc.showAmounts).to.be.equals(true);
-		menuId = doc._id;
+		themeId = doc._id;
 		
 	});
 
-	it('should update a menu', async function () {
+	it('should update a theme', async function () {
 
-		const filter = { _id: menuId };
+		const filter = { _id: themeId };
 		const update = { name: 'name2' };
 		let doc;
 		try {
-			doc = await Menu.updateOne(filter, update);
+			doc = await  Theme.updateOne(filter, update);
 		} catch (error) {
 			expect(error).to.not.exist;
 		}
@@ -83,12 +81,12 @@ describe('Menu', function () {
 	
 	});
 	
-	it('should get a menu', async function () {
+	it('should get a theme', async function () {
 
 		
 		let doc;
 		try {
-			doc = await Menu.findOne({_id: menuId});
+			doc = await  Theme.findOne({_id: themeId});
 		} catch (error) {
 			expect(error).to.not.exist;
 		}
@@ -100,12 +98,12 @@ describe('Menu', function () {
 
 	});
 
-	it('should delete a menu', async function () {
+	it('should delete a theme', async function () {
 		
 
 		let doc;
 		try {
-			doc = await Menu.deleteOne({_id: menuId});
+			doc = await  Theme.deleteOne({_id: themeId});
 		} catch (error) {
 			expect(error).to.not.exist;
 		}
