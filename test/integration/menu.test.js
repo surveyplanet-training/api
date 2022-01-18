@@ -60,26 +60,33 @@ describe('Menu', function () {
 		expect(response.body.showAmounts).to.equal(menuCache.showAmounts);
 	});
 
-	it('should retrieve a menu', async function () {
-		const response = await request(app).get('/menu');
+	it('should retrieve a menu', async function() {
 
-		expect(response.body).to.have.all.keys('header', 'status', 'body');
-		expect(response.headers['Content-Type']).toMatch(/json/);
-		expect(response.status).toEqual(200);
-		expect(response.body).to.have.all.keys(
-			'user',
-			'language',
-			'name',
-			'items',
-			'showIngredients',
-			'showAmounts'
-		);
-		expect(response.body.user).to.equal('');
-		expect(response.body.language).to.equal('');
-		expect(response.body.name).to.equal('');
-		expect(response.body.items).to.equal('');
-		expect(response.body.showIngredients).to.equal('');
-		expect(response.body.showAmounts).to.equal('');
+		const response = await request(app).get(`/v1/menu/${menuCache._id}`);
+
+		expect(response).to.have.property('header');
+		expect(response).to.have.property('status');
+		expect(response).to.have.property('body');
+
+		expect(response.headers['content-type']).to.match(/^application\/json/);
+		expect(response.status).to.equal(200);
+
+		expect(response.body).to.have.property('user');
+		expect(response.body).to.have.property('language');
+		expect(response.body).to.have.property('name');
+		expect(response.body).to.have.property('items');
+		expect(response.body).to.have.property('showIngredients');
+		expect(response.body).to.have.property('showAmounts');
+
+		menuCache = response.body;
+		expect(response.body.user).to.equal( menuCache.user.toString() );
+		expect(response.body.language).to.equal('en');
+		expect(response.body.name).to.equal(menuCache.name);
+		expect(response.body.items).to.be.an.instanceof(Array)
+			.that.is.empty;
+		expect(response.body.showIngredients).to.equal(menuCache.showIngredients);
+		expect(response.body.showAmounts).to.equal(menuCache.showAmounts);
+
 	});
 
 	it('should retrieve all menus for a user', async function () {});
