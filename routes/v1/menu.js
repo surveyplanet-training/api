@@ -40,7 +40,7 @@ module.exports = function (router) {
 		let menu;
 
 		try {
-			menu = await Menu.fineOneAndUpdate(query, request.body, {new:true});
+			menu = await Menu.findOneAndUpdate(query, request.body, {new:true});
 		} catch (err) {
 			next(err);
 		}
