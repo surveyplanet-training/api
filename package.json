@@ -22,6 +22,7 @@
 		"express": "^4.17.1",
 		"http-shutdown": "^1.2.2",
 		"mongoose": "^6.1.2",
+		"only": "^0.0.2",
 		"parser": "^0.1.4"
 	},
 	"devDependencies": {
