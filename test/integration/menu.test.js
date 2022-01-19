@@ -41,8 +41,6 @@ describe('Menu', function () {
 		expect(response.body.items).to.be.an.instanceof(Array).that.is.empty;
 		expect(response.body.showIngredients).to.equal(data.showIngredients);
 		expect(response.body.showAmounts).to.equal(data.showAmounts);
-
-
 	});
 
 	it('should update a menu', async function () {
@@ -62,8 +60,7 @@ describe('Menu', function () {
 		expect(response.body.showAmounts).to.equal(menuCache.showAmounts);
 	});
 
-	it('should retrieve a menu', async function() {
-
+	it('should retrieve a menu', async function () {
 		const response = await request(app).get(`/v1/menu/${menuCache._id}`);
 
 		expect(response).to.have.property('header');
@@ -81,14 +78,12 @@ describe('Menu', function () {
 		expect(response.body).to.have.property('showAmounts');
 
 		menuCache = response.body;
-		expect(response.body.user).to.equal( menuCache.user.toString() );
+		expect(response.body.user).to.equal(menuCache.user.toString());
 		expect(response.body.language).to.equal('en');
 		expect(response.body.name).to.equal(menuCache.name);
-		expect(response.body.items).to.be.an.instanceof(Array)
-			.that.is.empty;
+		expect(response.body.items).to.be.an.instanceof(Array).that.is.empty;
 		expect(response.body.showIngredients).to.equal(menuCache.showIngredients);
 		expect(response.body.showAmounts).to.equal(menuCache.showAmounts);
-
 	});
 
 	it('should retrieve all menus for a user', async function () {});
