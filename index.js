@@ -1,6 +1,6 @@
 const httpShutdown = require('http-shutdown');
 const app = require('./app');
-const client = app.get('client');
+const mongoose = require('mongoose');
 
 let server;
 
@@ -43,18 +43,15 @@ function shutdown() {
 		}
 
 		// close db connection
-		if (client) {
-			client.close();
-		}
+		mongoose.disconnect();
 
 		process.exit(0);
 	});
 }
 
 (async function () {
-	await client.connect();
 
-	server = httpShutdown(app.listen(app.get('port')));
+	server = httpShutdown( app.listen(app.get('port')));
 
 	server.on('error', serverErrorHandler);
 	server.on('listening', serverListeningHandler);
