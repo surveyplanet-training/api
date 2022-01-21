@@ -5,7 +5,7 @@ const { ObjectId } = mongoose.Types;
 const  Theme = require('../../../lib/models/theme.js');
 
 
-describe(' Theme', function () {
+describe('Theme Unit Test', function () {
 
 	let themeId;
 
@@ -15,16 +15,15 @@ describe(' Theme', function () {
 
 	it('should create a theme', async function () {
 
-		const options = new Theme({
+		const options = {
 			name: 'theme1',
 			font: 'helvetica',
 			css: 'this is an imaginary css code',
 			template: true,
-			user: { type: ObjectId, ref: 'User' },
-		});
+			user: new ObjectId(),
+		};
 		
-
-		const theme = new  Theme(options);
+		const theme = new Theme(options);
 
 		let doc;
 
@@ -35,21 +34,22 @@ describe(' Theme', function () {
 		}
 
 		expect(doc).to.exist;
-		expect( doc.toObject() ).to.have.any.keys(
+		expect( doc.toObject() ).to.have.properties(
 			'_id',
 			'user',
 			'name',
-			'items',
-			'showIngredients',
-			'showAmounts',
-			'language',
+			'font',
+			'template',
+			'css',
 		); 
 		themeId = doc._id;
 		expect(doc._id).to.be.instanceOf(ObjectId);
-		expect(doc.user).to.be.equal(options.user);
+		expect(doc.user).to.be.instanceOf(ObjectId);
+		expect( doc.user.equals(options.user) ).to.be.true;
 		expect(doc.name).to.be.equal(options.name);
-		expect(doc.showIngredients).to.be.equals(true);
-		expect(doc.showAmounts).to.be.equals(true);
+		expect(doc.font).to.be.equal(options.font);
+		expect(doc.css).to.be.equal(options.css);
+		expect(doc.template).to.be.true;
 		
 	});
 
