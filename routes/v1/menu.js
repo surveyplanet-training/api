@@ -3,6 +3,8 @@ const { ObjectId } = require('mongodb');
 const Menu = require('../../lib/models/menu');
 
 module.exports = function (router) {
+
+
 	router.get('/menu/:id', async (request, response, next) => {
 		if (!ObjectId.isValid(request.params.id)) {
 			return response.status(404).send('Not Found');
@@ -20,7 +22,8 @@ module.exports = function (router) {
 			next(err);
 		}
 
-		response.json(menu || {});
+		response.json(menu);
+
 	});
 
 	// Update a menu item

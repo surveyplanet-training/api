@@ -18,7 +18,9 @@ describe('Menu', function () {
 			showAmounts: true,
 		};
 
-		const response = await request(app).post('/v1/menu').send(data);
+		const response = await request(app)
+			.post('/v1/menu')
+			.send(data);
 
 		expect(response).to.have.property('header');
 		expect(response).to.have.property('status');
@@ -44,8 +46,15 @@ describe('Menu', function () {
 	});
 
 	it('should update a menu', async function () {
-		const data = { name: 'updated name' };
-		const response = await request(app).put(`/v1/menu/${menuCache._id}`).send(data);
+
+		const data = {
+			name: 'updated name'
+		};
+
+		const response = await request(app)
+			.put(`/v1/menu/${menuCache._id}`)
+			.send(data);
+
 		expect(response).to.have.property('header');
 		expect(response).to.have.property('status');
 		expect(response).to.have.property('body');
@@ -59,7 +68,9 @@ describe('Menu', function () {
 	});
 
 	it('should retrieve a menu', async function () {
-		const response = await request(app).get(`/v1/menu/${menuCache._id}`);
+
+		const response = await request(app)
+			.get(`/v1/menu/${menuCache._id}`);
 
 		expect(response).to.have.property('header');
 		expect(response).to.have.property('status');
@@ -85,7 +96,10 @@ describe('Menu', function () {
 	});
 
 	it('should retrieve all menus for a user', async function () {
-		const response = await request(app).get(`/v1/menus`).query({ user: menuCache.user });
+
+		const response = await request(app)
+			.get('/v1/menus')
+			.query({ user: menuCache.user });
 
 		expect(response).to.have.property('header');
 		expect(response).to.have.property('status');
@@ -103,12 +117,15 @@ describe('Menu', function () {
 	});
 
 	it('should delete a menu', async function () {
-		const response = await request(app).delete(`/v1/menu/${menuCache._id}`);
+
+		const response = await request(app)
+			.delete(`/v1/menu/${menuCache._id}`);
 
 		expect(response).to.have.property('header');
 		expect(response).to.have.property('status');
 		expect(response).to.have.property('body');
 
 		expect(response.body).to.eql({ deletedCount: 1 });
+
 	});
 });

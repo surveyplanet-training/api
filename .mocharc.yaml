@@ -1,14 +1,13 @@
 ---
 extension:
-  - 'js'
+  - 'test.js'
 ignore:
   - '^_'
   - 'fixtures'
   - 'assets'
 reporter: 'spec'
-# require: 
-#   - 'should'
-#   - 'test/_env.js'
+require: 
+  - test/assertions
 retries: 0
 # slow: 75
 sort: false
