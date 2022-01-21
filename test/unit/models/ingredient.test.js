@@ -266,35 +266,7 @@ describe('Ingredient Unit Test', function () {
 		expect(doc).to.exist;
 		expect(doc.name).to.equal('Test Ingredient');
 		expect(doc.description).to.equal('Tested the updating test');
-		expect(doc.minerals).to.have.all.keys(
-			'calcium',
-			'iron',
-			'magnesium',
-			'phosphorus',
-			'potassium',
-			'sodium',
-			'zinc',
-			'copper',
-			'selenium'
-		);
-		expect(doc.vitamins).to.have.all.keys(
-			'A1',
-			'A',
-			'caroteneAlpha',
-			'caroteneBeta',
-			'B1',
-			'B2',
-			'B3',
-			'B5',
-			'B6',
-			'B7',
-			'B9',
-			'B12',
-			'C',
-			'D',
-			'E',
-			'K'
-		);
+
 		expect(doc.protein.amount).to.be.equal(123);
 		expect(doc.lipids.amount).to.be.equal(123);
 		expect(doc.carbohydrates.amount).to.be.equal(123);
