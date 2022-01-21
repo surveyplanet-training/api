@@ -5,7 +5,7 @@ const { ObjectId } = mongoose.Types;
 const Restaurant = require('../../../lib/models/restaurant.js');
 
 
-describe('Restaurant', function () {
+describe('Restaurant Unit Test', function () {
 
 	let restaurantId;
 
