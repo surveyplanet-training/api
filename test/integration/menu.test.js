@@ -45,9 +45,7 @@ describe('Menu', function () {
 
 	it('should update a menu', async function () {
 		const data = { name: 'updated name' };
-		const response = await request(app)
-			.put(`/v1/menu/${menuCache._id}`)
-			.send(data);
+		const response = await request(app).put(`/v1/menu/${menuCache._id}`).send(data);
 		expect(response).to.have.property('header');
 		expect(response).to.have.property('status');
 		expect(response).to.have.property('body');
@@ -87,9 +85,7 @@ describe('Menu', function () {
 	});
 
 	it('should retrieve all menus for a user', async function () {
-		const response = await request(app)
-			.get(`/v1/menus`)
-			.query({ user: menuCache.user });
+		const response = await request(app).get(`/v1/menus`).query({ user: menuCache.user });
 
 		expect(response).to.have.property('header');
 		expect(response).to.have.property('status');
@@ -102,11 +98,10 @@ describe('Menu', function () {
 		expect(response.body[0].language).to.equal(menuCache.language);
 		expect(response.body[0].name).to.equal(menuCache.name);
 		expect(response.body[0].items).to.be.an.instanceof(Array).that.is.empty;
-		expect(response.body[0].showIngredients).to.equal(
-			menuCache.showIngredients
-		);
+		expect(response.body[0].showIngredients).to.equal(menuCache.showIngredients);
 		expect(response.body[0].showAmounts).to.equal(menuCache.showAmounts);
 	});
+
 	it('should delete a menu', async function () {
 		const response = await request(app).delete(`/v1/menu/${menuCache._id}`);
 
