@@ -5,7 +5,7 @@ const { ObjectId } = mongoose.Types;
 const  Theme = require('../../../lib/models/theme.js');
 
 
-describe(' Theme', function () {
+describe('Theme Unit Test', function () {
 
 	let themeId;
 
@@ -20,9 +20,9 @@ describe(' Theme', function () {
 			font: 'helvetica',
 			css: 'this is an imaginary css code',
 			template: true,
-			user: { type: ObjectId, ref: 'User' },
+			user: new ObjectId(),
 		};
-
+		
 		const theme = new Theme(options);
 
 		let doc;
@@ -34,20 +34,22 @@ describe(' Theme', function () {
 		}
 
 		expect(doc).to.exist;
-		expect(doc).to.have.properties(
+		expect( doc.toObject() ).to.have.properties(
 			'_id',
 			'user',
 			'name',
 			'font',
-			'css',
 			'template',
+			'css',
 		); 
 		themeId = doc._id;
 		expect(doc._id).to.be.instanceOf(ObjectId);
-		expect(doc.user).to.be.equal(options.user);
+		expect(doc.user).to.be.instanceOf(ObjectId);
+		expect( doc.user.equals(options.user) ).to.be.true;
 		expect(doc.name).to.be.equal(options.name);
-		expect(doc.css).to.be.equals(options.css);
-		expect(doc.template).to.be.equals(true);
+		expect(doc.font).to.be.equal(options.font);
+		expect(doc.css).to.be.equal(options.css);
+		expect(doc.template).to.be.true;
 		
 	});
 
@@ -63,7 +65,7 @@ describe(' Theme', function () {
 		}
 		
 		expect(doc).to.exist;
-		expect(doc).to.have.any.keys(
+		expect(doc).to.have.properties(
 			'acknowledged',
 			'matchedCount',
 			'modifiedCount',

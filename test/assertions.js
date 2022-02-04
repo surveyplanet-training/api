@@ -1,6 +1,5 @@
 const chai = require('chai');
-const mongoose = require('mongoose');
-const { ObjectId } = mongoose.Types;
+const { ObjectId } = require('mongoose').Types;
 
 chai.use(function (_chai, utils) {
 
@@ -17,12 +16,11 @@ chai.use(function (_chai, utils) {
 		const not = utils.flag(this, 'negate');
 		let obj = utils.flag(this, 'object');
 
-		if ( Object.prototype.toString.call(obj.toObject) === '[object Function]' ) {
+		if ( Object.prototype.toString.call(obj.toObject) === '[object Function]') {
 			obj = obj.toObject();
 		}
 
 		const keys = Object.keys(obj);
-
 		const hasProperties = args.every( (prop) => keys.includes(prop) );
 
 		new chai.Assertion( hasProperties ).to.be[ not ? 'false' : 'true'];

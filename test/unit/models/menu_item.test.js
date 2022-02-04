@@ -6,7 +6,7 @@ const { ObjectId } = mongoose.Types;
 const MenuItem = require('../../../lib/models/menu_item');
 
 
-describe('MenuItem', function () {
+describe('MenuItem Unit Test', function () {
 
 	let menuItemId;
 

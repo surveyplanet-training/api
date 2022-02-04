@@ -5,7 +5,7 @@ const { ObjectId } = mongoose.Types;
 const Menu = require('../../../lib/models/menu.js');
 
 
-describe('Menu', function () {
+describe('Menu Unit Test', function () {
 
 	let menuId;
 
@@ -19,8 +19,7 @@ describe('Menu', function () {
 		const options = {
 			user: new ObjectId(),
 			name: 'Test Menu',
-			items: [
-			],
+			items: [],
 			showIngredients: true,
 			showAmounts: true,
 		};
@@ -36,9 +35,9 @@ describe('Menu', function () {
 			expect(error).to.not.exist;
 		}
 
+
 		expect(doc).to.exist;
-		menuId = doc._id;
-		expect(doc).to.have.properties(
+		expect(doc.toObject()).to.have.properties(
 			'_id',
 			'user',
 			'name',
@@ -53,6 +52,7 @@ describe('Menu', function () {
 		expect(doc.items).to.be.instanceOf(Array);
 		expect(doc.showIngredients).to.be.equals(true);
 		expect(doc.showAmounts).to.be.equals(true);
+		menuId = doc._id;
 		
 	});
 
