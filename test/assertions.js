@@ -13,8 +13,12 @@ chai.use(function (_chai, utils) {
 			args = args[0];	
 		}
 
-		const obj = utils.flag(this, 'object');
 		const not = utils.flag(this, 'negate');
+		let obj = utils.flag(this, 'object');
+
+		if ( Object.prototype.toString.call(obj.toObject) === '[object Function]') {
+			obj = obj.toObject();
+		}
 
 		const keys = Object.keys(obj);
 		const hasProperties = args.every( (prop) => keys.includes(prop) );

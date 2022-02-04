@@ -65,7 +65,7 @@ describe('Theme Unit Test', function () {
 		}
 		
 		expect(doc).to.exist;
-		expect(doc).to.have.any.keys(
+		expect(doc).to.have.properties(
 			'acknowledged',
 			'matchedCount',
 			'modifiedCount',
