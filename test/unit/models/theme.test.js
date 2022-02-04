@@ -15,16 +15,15 @@ describe(' Theme', function () {
 
 	it('should create a theme', async function () {
 
-		const options = new Theme({
+		const options = {
 			name: 'theme1',
 			font: 'helvetica',
 			css: 'this is an imaginary css code',
 			template: true,
 			user: { type: ObjectId, ref: 'User' },
-		});
-		
+		};
 
-		const theme = new  Theme(options);
+		const theme = new Theme(options);
 
 		let doc;
 
@@ -35,21 +34,20 @@ describe(' Theme', function () {
 		}
 
 		expect(doc).to.exist;
-		expect( doc.toObject() ).to.have.any.keys(
+		expect(doc).to.have.properties(
 			'_id',
 			'user',
 			'name',
-			'items',
-			'showIngredients',
-			'showAmounts',
-			'language',
+			'font',
+			'css',
+			'template',
 		); 
 		themeId = doc._id;
 		expect(doc._id).to.be.instanceOf(ObjectId);
 		expect(doc.user).to.be.equal(options.user);
 		expect(doc.name).to.be.equal(options.name);
-		expect(doc.showIngredients).to.be.equals(true);
-		expect(doc.showAmounts).to.be.equals(true);
+		expect(doc.css).to.be.equals(options.css);
+		expect(doc.template).to.be.equals(true);
 		
 	});
 

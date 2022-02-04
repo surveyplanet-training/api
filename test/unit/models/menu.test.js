@@ -37,7 +37,8 @@ describe('Menu', function () {
 		}
 
 		expect(doc).to.exist;
-		expect(doc.toObject()).to.have.all.keys(
+		menuId = doc._id;
+		expect(doc).to.have.properties(
 			'_id',
 			'user',
 			'name',
@@ -52,7 +53,6 @@ describe('Menu', function () {
 		expect(doc.items).to.be.instanceOf(Array);
 		expect(doc.showIngredients).to.be.equals(true);
 		expect(doc.showAmounts).to.be.equals(true);
-		menuId = doc._id;
 		
 	});
 
