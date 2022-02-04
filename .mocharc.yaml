@@ -6,7 +6,7 @@ ignore:
   - 'fixtures'
   - 'assets'
 reporter: 'spec'
-require: 
+require:
   - test/assertions
 retries: 0
 # slow: 75

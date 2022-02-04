@@ -1,33 +1,29 @@
-
 const { expect } = require('chai');
 const { mongoUri } = require('../../../lib/definitions');
 const mongoose = require('mongoose');
 const { ObjectId } = mongoose.Types;
 const MenuItem = require('../../../lib/models/menu_item');
 
-
 describe('MenuItem Unit Test', function () {
-
 	let menuItemId;
 
-	before( () => mongoose.connect(mongoUri) );
+	before(() => mongoose.connect(mongoUri));
 
-	after( () => mongoose.disconnect() );
+	after(() => mongoose.disconnect());
 
 	it('should create a menuItem', async function () {
-
 		const tags = ['vegan', 'kosher', 'halal'];
 
 		const options = {
 			user: new ObjectId(),
-			name : 'Test Menu Item',
+			name: 'Test Menu Item',
 			ingredients: [
 				{
-					ingredient:'61e1cb34e22cfb02976e3610', //Bacon and cheese sandwich, with spread'
+					ingredient: '61e1cb34e22cfb02976e3610', //Bacon and cheese sandwich, with spread'
 					grams: 100,
 				},
 				{
-					ingredient: '61e1cb34e22cfb02976e361a',	//Beef and potatoes with cheese sauce'
+					ingredient: '61e1cb34e22cfb02976e361a', //Beef and potatoes with cheese sauce'
 					grams: 100,
 				},
 			],
@@ -38,16 +34,15 @@ describe('MenuItem Unit Test', function () {
 				{
 					grams: 350,
 					price: 20,
-					currency: 'USD'
+					currency: 'USD',
 				},
 				{
 					grams: 500,
 					price: 30,
-					currency: 'USD'
+					currency: 'USD',
 				},
 			],
 			tags: tags,
-		
 		};
 
 		const menuItem = new MenuItem(options);
@@ -68,20 +63,17 @@ describe('MenuItem Unit Test', function () {
 		expect(doc.user).to.be.equal(options.user);
 		expect(doc.tags).to.be.eql(tags);
 		expect(doc.portion).to.have.length(2);
-		
 
 		menuItemId = doc._id;
-		
 	});
 
 	it('should update a menuItem', async function () {
-
 		const filter = { _id: menuItemId };
 		const update = {
 			description: 'Tested the updating test',
-			$push:{
-				tags: 'fasting-friendly'
-			}
+			$push: {
+				tags: 'fasting-friendly',
+			},
 		};
 
 		let doc;
@@ -97,16 +89,13 @@ describe('MenuItem Unit Test', function () {
 		expect(doc.acknowledged).to.be.true;
 		expect(doc.upsertedId).to.be.null;
 		expect(doc.upsertedCount).to.be.equal(0);
-	
 	});
-	
-	it('should get a menuItem', async function () {
 
-		
+	it('should get a menuItem', async function () {
 		let doc;
 
 		try {
-			doc = await MenuItem.findOne({_id: menuItemId});
+			doc = await MenuItem.findOne({ _id: menuItemId });
 		} catch (error) {
 			expect(error).to.not.exist;
 		}
@@ -138,24 +127,18 @@ describe('MenuItem Unit Test', function () {
 		expect(doc.portion[1].price).to.equal(30);
 		expect(doc.portion[1].currency).to.equal('USD');
 
-		expect(doc.tags).to.include( 'fasting-friendly' );
-		
+		expect(doc.tags).to.include('fasting-friendly');
 	});
 
 	it('should delete a menuItem', async function () {
-		
-
 		let doc;
 		try {
-			doc = await MenuItem.deleteOne({_id: menuItemId});
+			doc = await MenuItem.deleteOne({ _id: menuItemId });
 		} catch (error) {
 			expect(error).to.not.exist;
 		}
 
 		expect(doc).to.exist;
 		expect(doc.deletedCount).to.be.equal(1);
-		
 	});
-
-	
 });
