@@ -107,30 +107,22 @@ describe('MenuItem Unit Test', function () {
 		expect(doc.portion).to.be.an('array');
 		expect(doc.portion).to.have.lengthOf(2);
 
-<<<<<<< HEAD
 		expect(doc.portion[0].toObject()).to.have.properties(
 			'grams',
 			'price',
 			'currency',
 			'_id'
 		);
-=======
-		expect(doc.portion[0].toObject()).to.have.all.keys('grams', 'price', 'currency', '_id');
->>>>>>> origin/ognjen
 		expect(doc.portion[0].grams).to.equal(350);
 		expect(doc.portion[0].price).to.equal(20);
 		expect(doc.portion[0].currency).to.equal('USD');
 
-<<<<<<< HEAD
 		expect(doc.portion[1].toObject()).to.have.properties(
 			'grams',
 			'price',
 			'currency',
 			'_id'
 		);
-=======
-		expect(doc.portion[1].toObject()).to.have.all.keys('grams', 'price', 'currency', '_id');
->>>>>>> origin/ognjen
 		expect(doc.portion[1].grams).to.equal(500);
 		expect(doc.portion[1].price).to.equal(30);
 		expect(doc.portion[1].currency).to.equal('USD');
