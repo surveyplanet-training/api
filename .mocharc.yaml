@@ -6,12 +6,16 @@ ignore:
   - 'fixtures'
   - 'assets'
 reporter: 'spec'
-require: 
+require:
   - test/assertions
 retries: 0
 # slow: 75
 sort: false
+<<<<<<< HEAD
 timeout: 20000 # same as "no-timeout: true" or "timeout: 0"
+=======
+timeout: 15000 # same as "no-timeout: true" or "timeout: 0"
+>>>>>>> origin/ognjen
 ui: 'bdd'
 v8-stack-trace-limit: 100 # V8 flags are prepended with "v8-"
 watch: false

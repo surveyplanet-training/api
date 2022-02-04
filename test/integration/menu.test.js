@@ -25,7 +25,14 @@ describe('Menu Integration Test', function () {
 		expect(response.headers['content-type']).to.match(/^application\/json/);
 		expect(response.status).to.equal(200);
 
-		expect(response.body).to.have.properties('user', 'language', 'name', 'items', 'showIngredients', 'showAmounts');
+		expect(response.body).to.have.properties(
+			'user',
+			'language',
+			'name',
+			'items',
+			'showIngredients',
+			'showAmounts'
+		);
 
 		menuCache = response.body;
 		expect(response.body.user).to.equal(data.user.toString());
@@ -58,7 +65,14 @@ describe('Menu Integration Test', function () {
 		expect(response.headers['content-type']).to.match(/^application\/json/);
 		expect(response.status).to.equal(200);
 
-		expect(response.body).to.have.properties('user', 'language', 'name', 'items', 'showIngredients', 'showAmounts');
+		expect(response.body).to.have.properties(
+			'user',
+			'language',
+			'name',
+			'items',
+			'showIngredients',
+			'showAmounts'
+		);
 
 		menuCache = response.body;
 		expect(response.body.user).to.equal(menuCache.user.toString());
