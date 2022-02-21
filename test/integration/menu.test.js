@@ -3,7 +3,7 @@ const request = require('supertest');
 const mongoose = require('mongoose');
 const app = require('../../app');
 
-describe('Menu Integration Test', function () {
+describe('Integration Menu Test', function () {
 	let menuCache;
 
 	after(() => mongoose.disconnect());

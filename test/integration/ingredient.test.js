@@ -3,7 +3,7 @@ const request = require('supertest');
 const mongoose = require('mongoose');
 const app = require('../../app');
 
-describe('Ingredient Integration Test', function () {
+describe('Integration Ingredient Test', function () {
 
 	let ingredientCache;
 

@@ -4,23 +4,6 @@ const User = require('../../lib/models/user');
 
 module.exports = function (router) {
 	
-	router.post('/user', async function (request, response) {
-
-		const user = new User(request.body);
-		let doc;
-		try {
-			doc = await user.save();
-		
-		} catch (e) {
-			console.log(e);
-			return response.status(500).send(e);
-		}
-		response.json(doc);
-
-	});
-
-	//grab stuff from the menu routs delete + put
-
 	router.get('/user/:id', async (request, response, next) => {
 
 		if (!ObjectId.isValid(request.params.id)) {
@@ -63,6 +46,59 @@ module.exports = function (router) {
 		}
 
 		response.json(users || []);
+	});
+	
+	router.post('/user/:id', async function (request, response) {
+
+		const user = new User(request.body);
+		let doc;
+		try {
+			doc = await user.save();
+		
+		} catch (e) {
+			console.log(e);
+			return response.status(500).send(e);
+		}
+		response.json(doc);
+
+	});
+	router.put('/user/:id', async (request, response, next) => {
+		if (!ObjectId.isValid(request.params.id)) {
+			return response.status(401);
+		}
+
+		const query = {
+			_id: ObjectId(request.params.id),
+		};
+
+		let user;
+
+		try {
+			user = await User.findOneAndUpdate(query, request.body, { new: true });
+		} catch (err) {
+			next(err);
+		}
+
+		response.json(user || {});
+	});
+	router.delete('/user/:id', async (request, response, next) => {
+		if (!ObjectId.isValid(request.params.id)) {
+			return response.status(401);
+		}
+
+		const query = {
+			_id: ObjectId(request.params.id),
+		};
+
+		let user;
+
+		try {
+			user = await User.deleteOne(query);
+		} catch (err) {
+			next(err);
+		}
+
+		response.json(user || {});
 	});
 
 	return router;
