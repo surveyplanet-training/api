@@ -14,7 +14,6 @@ describe('User Unit Test', function () {
 
 	const date = new Date(1999, 2, 24);
 	const options = {
-		userId: new ObjectId(),
 		name: {
 			first: 'Thomas',
 			last: 'Anderson',
@@ -23,11 +22,6 @@ describe('User Unit Test', function () {
 		phone: '123123213',
 		photo: 'photo',
 		loggedIn: date,
-		verified: {
-			hash: 'legendaryHash',
-			expires: date,
-			date: date,
-		},
 		password: 'immaguessthisisntsupposedtobeplaintext',
 		passReset: {
 			hash: 'sadasdasdasd',
@@ -50,7 +44,7 @@ describe('User Unit Test', function () {
 		} catch (error) {
 			expect(error).to.not.exist;
 		}
-
+		console.log(doc);
 		expect(doc).to.exist;
 		userId = doc._id;
 		expect(doc).to.have.property('_id');
@@ -63,9 +57,9 @@ describe('User Unit Test', function () {
 		expect(doc.created.toISOString()).to.be.iso8601('eq', new Date().toISOString(), 11000);
 		expect(doc.updated.toISOString()).to.be.iso8601('eq', new Date().toISOString(), 11000);
 		expect(doc.loggedIn.toString()).to.be.equal(options.loggedIn.toString());
-		expect(doc.verified.hash).to.be.equal(options.verified.hash);
-		expect(doc.verified.expires.toString()).to.be.equal(options.verified.expires.toString());
-		expect(doc.verified.date.toString()).to.be.equal(options.verified.date.toString());
+		expect(doc.verified.hash).to.exist;
+		expect(doc.verified.expires).to.exist;
+		expect(doc.verified.date).to.not.exist;
 		expect(doc.password).to.be.equal(options.password);
 		expect(doc.passReset.hash).to.be.equal(options.passReset.hash);
 		expect(doc.passReset.expires.toString()).to.be.equal(options.passReset.expires.toString());
@@ -117,9 +111,9 @@ describe('User Unit Test', function () {
 		expect(doc.created.toISOString()).to.be.iso8601('eq', new Date().toISOString(), 11000);
 		expect(doc.updated.toISOString()).to.be.iso8601('eq', new Date().toISOString(), 11000);
 		expect(doc.loggedIn.toString()).to.be.equal(options.loggedIn.toString());
-		expect(doc.verified.hash).to.be.equal(options.verified.hash);
-		expect(doc.verified.expires.toString()).to.be.equal(options.verified.expires.toString());
-		expect(doc.verified.date.toString()).to.be.equal(options.verified.date.toString());
+		expect(doc.verified.hash).to.exist;
+		expect(doc.verified.expires).to.exist;
+		expect(doc.verified.date).to.not.exist;
 		expect(doc.password).to.be.equal(options.password);
 		expect(doc.passReset.hash).to.be.equal(options.passReset.hash);
 		expect(doc.passReset.expires.toString()).to.be.equal(options.passReset.expires.toString());
