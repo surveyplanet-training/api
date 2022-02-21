@@ -1,5 +1,4 @@
 const { expect } = require('chai');
-const { ObjectId } = require('mongoose').Types;
 const request = require('supertest');
 const mongoose = require('mongoose');
 const app = require('../../app');
@@ -11,7 +10,6 @@ describe('Menu Integration Test', function () {
 
 	it('should create a menu', async function () {
 		const data = {
-			user: new ObjectId(),
 			name: 'Integration Test Menu',
 			items: [],
 			showIngredients: true,
