@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 let server;
 
 function serverErrorHandler(error) {
-	if (error.code === 'EACCESS') {
+	if (error.code === 'ACCESS') {
 		console.error('Permission denied');
 		process.exit(1);
 	} else if (error.code === 'EADDRINUSE') {
@@ -21,12 +21,12 @@ function serverListeningHandler() {
 	console.log(`Server listening on port ${app.get('port')}`);
 }
 
-function sigintHander() {
+function sigintHandler() {
 	console.error('SIGINT ( Control-C ) shutting down...');
 	shutdown();
 }
 
-function sigtermHander() {
+function sigtermHandler() {
 	console.error('SIGTERM ( Process Killed ) shutting down...');
 	shutdown();
 }
@@ -56,6 +56,6 @@ function shutdown() {
 	server.on('error', serverErrorHandler);
 	server.on('listening', serverListeningHandler);
 
-	process.on('SIGINT', sigintHander);
-	process.on('SIGTERM', sigtermHander);
+	process.on('SIGINT', sigintHandler);
+	process.on('SIGTERM', sigtermHandler);
 })();
