@@ -21,8 +21,8 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
           tags: v1, latest
           docker_file: '.'
-          buildArgs: MONGODB_USERNAME = ${{ secrets.MONGODB_USERNAME }}
-            MONGODB_PASSWORD = ${{ secrets.MONGODB_PASSWORD }}
+          buildArgs: MONGODB_USERNAME = ${{ secrets.MONGODB_USERNAME }},
+            MONGODB_PASSWORD = ${{ secrets.MONGODB_PASSWORD }},
             NODE_ENV = 'github_action'
       - name: Get pre step result output image_pull_url
         run: echo "The time was ${{ steps.buildAndPushImage.outputs.image_pull_url }}"
