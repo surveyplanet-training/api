@@ -4,7 +4,7 @@ const User = require('../../lib/models/user');
 
 module.exports = function (router) {
 	
-	router.get('/user/:id', async (request, response, next) => {
+	router.get('/user/', async (request, response, next) => {
 
 		if (!ObjectId.isValid(request.params.id)) {
 			return response.status(404).send('Not Found');
@@ -48,7 +48,7 @@ module.exports = function (router) {
 		response.json(users || []);
 	});
 	
-	router.post('/user/:id', async function (request, response) {
+	router.post('/user', async function (request, response) {
 
 		const user = new User(request.body);
 		let doc;
@@ -62,7 +62,7 @@ module.exports = function (router) {
 		response.json(doc);
 
 	});
-	router.put('/user/:id', async (request, response, next) => {
+	router.put('/user', async (request, response, next) => {
 		if (!ObjectId.isValid(request.params.id)) {
 			return response.status(401);
 		}
@@ -81,7 +81,7 @@ module.exports = function (router) {
 
 		response.json(user || {});
 	});
-	router.delete('/user/:id', async (request, response, next) => {
+	router.delete('/user', async (request, response, next) => {
 		if (!ObjectId.isValid(request.params.id)) {
 			return response.status(401);
 		}

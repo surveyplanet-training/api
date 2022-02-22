@@ -9,6 +9,10 @@ describe('Integration User Test', function () {
 
 	after(() => mongoose.disconnect());
 
+	// =============================================================================
+	//  C R E A T E
+	// =============================================================================
+
 	it('should create a user', async function () {
 		// 1. pass in user data
 		const data = {
@@ -35,7 +39,9 @@ describe('Integration User Test', function () {
 		};
 		const response = await request(app)
 			.post('/v1/user').send(data);
+
 		console.log(response.headers, response.status, response.body);
+
 		expect(response.headers['content-type']).to.match(/^application\/json/);
 		expect(response.status).to.equal(200);
 		expect(response.body).to.have.properties(
@@ -61,15 +67,11 @@ describe('Integration User Test', function () {
 		expect(response.body.photo).to.equal(data.photo);
 		expect(response.body.created).to.exist;
 		expect(response.body.updated).to.exist;
-		//expect(response.body.loggedIn).to.equal(data.loggedIn.toISOString());
 		expect(response.body.verified).to.have.properties(
 			'hash',
 			'expires',
 			'date'
 		);
-		expect(response.body.verified.hash).to.equal(data.verified.hash);
-		expect(response.body.verified.expires).to.equal(data.verified.expires.toISOString());
-		expect(response.body.verified.date).to.equal(data.verified.date.toISOString());
 		expect(response.body.password).to.equal(data.password);
 		expect(response.body.passReset).to.have.properties(
 			'hash',
@@ -85,12 +87,13 @@ describe('Integration User Test', function () {
 		expect(response.body.preferences.currency).to.equal(data.preferences.currency);
 	});
 
-	//write roots for this test
-	// 3. check if values are correct...
+	// =============================================================================
+	//  U P D A T E
+	// =============================================================================
 
 	it('should update a user', async function () {
 
-		// 1. pass in user update data. What are you going to upate?
+		// 1. pass in user update data. What are you going to update?
 		const data = {
 			name: {
 				first: 'Integration1',
@@ -107,7 +110,7 @@ describe('Integration User Test', function () {
 				expires: new Date(),
 				date: new Date(),
 			},
-			password: 'password',
+			password: 'password1',
 			passReset: {
 				hash: 'hash',
 				expires: new Date(),
@@ -123,20 +126,60 @@ describe('Integration User Test', function () {
 			}
 			
 		};
-		const response = await request(app)
-			.put(`/v1/user/${userCache._id}`)
-			.send(data);
 
+		const response = await request(app).put(`/v1/user/${userCache._id}`).send(data);
+
+		expect(response).to.have.properties('headers', 'status', 'body');
+		
 		expect(response.headers['content-type']).to.match(/^application\/json/);
 		expect(response.status).to.equal(200);
-
-		// 2. check user properties
-		expect(response.body).to.have.properties('_id'); // 2. check user properties
-
-		// 3. check if user values are correct...
-
-
+		expect(response.body).to.have.properties(
+			'_id',
+			'name',
+			'email',
+			'phone',
+			'photo',
+			'created',
+			'updated',
+			//'loggedIn',
+			'verified',
+			'password',
+			'passReset',
+			'ip',
+			'notes',
+			'preferences'
+		);
+		userCache = response.body;
+		expect(response.body.name).to.deep.equal(data.name);
+		expect(response.body.email).to.equal(data.email);
+		expect(response.body.phone).to.equal(data.phone);
+		expect(response.body.photo).to.equal(data.photo);
+		expect(response.body.created).to.exist;
+		expect(response.body.updated).to.exist;
+		expect(response.body.verified).to.have.properties(
+			'hash',
+			'expires',
+			'date'
+		);
+		expect(response.body.password).to.equal(data.password);
+		expect(response.body.passReset).to.have.properties(
+			'hash',
+			'expires'
+		);
+		expect(response.body.passReset.hash).to.equal(data.passReset.hash);
+		expect(response.body.passReset.expires).to.equal(data.passReset.expires.toISOString());
+		expect(response.body.ip).to.equal(data.ip);
+		expect(response.body.notes).to.equal(data.notes);
+		expect(response.body.preferences).to.have.properties(
+			'currency'
+		);
+		expect(response.body.preferences.currency).to.equal(data.preferences.currency);
 	});
+
+
+	// =============================================================================
+	// R E T R I E V E 
+	// =============================================================================
 
 	it('should retrieve a user', async function () {
 
@@ -155,6 +198,10 @@ describe('Integration User Test', function () {
 		// 3. check if user values are correct...
 
 	});
+
+	// =============================================================================
+	//  R E T R I E V E   A L L   U S E R S
+	// =============================================================================
 
 	it('should retrieve all users for a user', async function () {
 
@@ -182,6 +229,10 @@ describe('Integration User Test', function () {
 
 	});
 
+	//=============================================================================
+	// D E L E T E
+	//=============================================================================
+
 	it('should delete a user', async function () {
 
 		const response = await request(app)
@@ -194,6 +245,5 @@ describe('Integration User Test', function () {
 		expect(response.body).to.have.property('deletedCount');
 		expect(response.body).to.eql({ deletedCount: 1 });
 
-	});
+	});	
 });
-
