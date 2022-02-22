@@ -10,7 +10,6 @@ const app = express();
 
 app.set('port', config.port || 8080); // use: app.get('port')
 app.use( bodyParser.json() );
-
 let routes = require('./routes/index');
 
 // all urls will be accessed through /v1/... ( e.g. /v1/users, /v2/foods, etc.)

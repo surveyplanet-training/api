@@ -37,10 +37,9 @@ describe('Integration User Test', function () {
 				currency: 'USD',
 			},
 		};
+
 		const response = await request(app)
 			.post('/v1/user').send(data);
-
-		console.log(response.headers, response.status, response.body);
 
 		expect(response.headers['content-type']).to.match(/^application\/json/);
 		expect(response.status).to.equal(200);
@@ -85,6 +84,8 @@ describe('Integration User Test', function () {
 			'currency'
 		);
 		expect(response.body.preferences.currency).to.equal(data.preferences.currency);
+
+		
 	});
 
 	// =============================================================================
@@ -95,44 +96,15 @@ describe('Integration User Test', function () {
 
 		// 1. pass in user update data. What are you going to update?
 		const data = {
-			name: {
-				first: 'Integration1',
-				last: 'Test1',
-			},
-			email: 'test@email1.com',
-			phone:'12345678901',
-			photo: 'http://www.google1.com',
-			created: new Date(),
-			updated: new Date(),
-			loggedIn: new Date(),
-			verified: {
-				hash: 'hash',
-				expires: new Date(),
-				date: new Date(),
-			},
-			password: 'password1',
-			passReset: {
-				hash: 'hash',
-				expires: new Date(),
-			},
-			ip: '123.111.3123.123',
-			notes: 'he was a good fella',
-			preferences: {
-				currency: 'USD',
-			},		
-			timestamps: {
-				createdAt: 'created',
-				updatedAt: 'updated',
-			}
-			
+			phone: '1234567890TEST',
 		};
 
-		const response = await request(app).put(`/v1/user/${userCache._id}`).send(data);
+		const response = await request(app).put(`/v1/user/${ userCache._id }`).send(data);
 
-		expect(response).to.have.properties('headers', 'status', 'body');
-		
-		expect(response.headers['content-type']).to.match(/^application\/json/);
+		console.log(response.headers, response.status, response.body);
 		expect(response.status).to.equal(200);
+		expect(response).to.have.properties('headers', 'status', 'body');		
+		expect(response.headers['content-type']).to.match(/^application\/json/);
 		expect(response.body).to.have.properties(
 			'_id',
 			'name',
@@ -193,7 +165,21 @@ describe('Integration User Test', function () {
 		expect(response).to.have.properties('header', 'status', 'body');
 
 		// 2. check user properties
-		expect(response.body).to.have.properties('_id'); // 2. check user properties
+		expect(response.body).to.have.properties(
+			'_id',
+			'name',
+			'email',
+			'phone',
+			'photo',
+			'created',
+			'updated',
+			//'loggedIn',
+			'verified',
+			'password',
+			'passReset',
+			'ip',
+			'notes'
+		);
 
 		// 3. check if user values are correct...
 
@@ -220,8 +206,21 @@ describe('Integration User Test', function () {
 		for (let index = 0; index < response.body.length; index++) {
 			const item = response.body[index];
 			
-			// 3. check user properties
-			expect(item).to.have.properties('_id'); // 2. check user properties
+			expect(item).to.have.properties(
+				'_id',
+				'name',
+				'email',
+				'phone',
+				'photo',
+				'created',
+				'updated',
+				//'loggedIn',
+				'verified',
+				'password',
+				'passReset',
+				'ip',
+				'notes'
+			); 
 
 			// 4. check if user values are correct...
 
@@ -237,9 +236,9 @@ describe('Integration User Test', function () {
 
 		const response = await request(app)
 			.delete(`/v1/user/${userCache._id}`);
-
-		expect(response.headers['content-type']).to.match(/^application\/json/);
+			
 		expect(response.status).to.equal(200);
+		expect(response.headers['content-type']).to.match(/^application\/json/);
 		expect(response).to.have.properties('header', 'status', 'body');
 
 		expect(response.body).to.have.property('deletedCount');

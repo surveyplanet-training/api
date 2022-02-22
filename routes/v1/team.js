@@ -30,6 +30,25 @@ module.exports = function (router) {
 
 	router.put('/team/:id', async (request, response, next) => {
 
+		if (!ObjectId.isValid(request.params.id)) {
+			return response.status(401);
+		}
+
+		const query = {
+			_id: ObjectId(request.params.id),
+		};
+
+		let team;
+
+		try {
+			team = await Menu.findOneAndUpdate(query, request.body, { new: true });
+		} catch (err) {
+			next(err);
+		}
+
+		response.json(team || {});
+
+
 	});
 
 	// Save new team item
