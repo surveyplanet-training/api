@@ -1,0 +1,30 @@
+name: GitHub Actions Push to DockerHub
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    name: Build and push to DockerHub
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git Checkout Code
+        uses: actions/checkout@v1
+        id: git_checkout
+
+      - name: Build Docker Image
+        id: buildAndPushImage
+        uses: Abhishek-070/Dockerhub-Build-Push@v1.0
+        with:
+          registry_url: 'docker.io'
+          repository_name: 'lukamit/blue'
+          user_name: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          image_version: 'latest'
+          docker_file: '.'
+        env:
+          MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
+          MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
+
+      - name: Get pre step result output image_pull_url
+        run: echo "The time was ${{ steps.buildAndPushImage.outputs.image_pull_url }}"
