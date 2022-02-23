@@ -2,7 +2,7 @@ name: GitHub Actions Push to DockerHub
 on:
   push:
     branches:
-      - master
+      - luka
 jobs:
   build:
     name: Build and push to DockerHub
@@ -25,6 +25,6 @@ jobs:
         env:
           MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
           MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
-          LOCAL_ENV: false
+          LOCAL_ENV: 'github'
       - name: Get pre step result output image_pull_url
         run: echo "The time was ${{ steps.buildAndPushImage.outputs.image_pull_url }}"
