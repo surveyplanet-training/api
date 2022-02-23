@@ -1,5 +1,5 @@
 const { expect } = require('chai');
-const { mongoUri } = require('../../../lib/definitions');
+const { mongo } = require('../../../lib/config');
 const mongoose = require('mongoose');
 const { ObjectId } = mongoose.Types;
 const  Theme = require('../../../lib/models/theme.js');
@@ -9,7 +9,7 @@ describe('Theme Unit Test', function () {
 
 	let themeId;
 
-	before( () => mongoose.connect(mongoUri) );
+	before( () => mongoose.connect(mongo) );
 
 	after(() => mongoose.disconnect());
 

@@ -54,4 +54,5 @@ node_modules
 # Other #
 #########
 env.json
+config.json
 data

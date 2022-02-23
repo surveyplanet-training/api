@@ -1,13 +1,13 @@
 const chai = require('chai');
 const { expect } = chai;
 chai.use(require('chai-iso8601')());
-const { mongoUri } = require('../../../lib/definitions');
+const { mongo } = require('../../../lib/config');
 const mongoose = require('mongoose');
 const { ObjectId } = mongoose.Types;
 const User = require('../../../lib/models/user');
 
 describe('User Unit Test', function () {
-	before(() => mongoose.connect(mongoUri));
+	before(() => mongoose.connect(mongo));
 	after(() => mongoose.disconnect());
 
 	let userId;

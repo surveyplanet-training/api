@@ -1,14 +1,15 @@
 const express = require('express');
-const config = require('./env');
 const mongoose = require('mongoose');
-const { mongoUri } = require('./lib/definitions');
+const config = require('./lib/config');
 const bodyParser = require('body-parser');
 
-mongoose.connect(mongoUri);
+mongoose.connect(config.mongo, config.mongoOptions)
+	.then(() => console.log('Connected to MongoDB'))
+	.catch(console.error);
 
 const app = express();
 
-app.set('port', config.port || 8080); // use: app.get('port')
+app.set('port', config.port); // use: app.get('port')
 app.use( bodyParser.json() );
 
 let routes = require('./routes/index');

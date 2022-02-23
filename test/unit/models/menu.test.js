@@ -1,5 +1,5 @@
 const { expect } = require('chai');
-const { mongoUri } = require('../../../lib/definitions');
+const { mongo } = require('../../../lib/config');
 const mongoose = require('mongoose');
 const { ObjectId } = mongoose.Types;
 const Menu = require('../../../lib/models/menu.js');
@@ -7,7 +7,7 @@ const Menu = require('../../../lib/models/menu.js');
 describe('Menu Unit Test', function () {
 	let menuId;
 
-	before(() => mongoose.connect(mongoUri));
+	before(() => mongoose.connect(mongo));
 
 	after(() => mongoose.disconnect());
 

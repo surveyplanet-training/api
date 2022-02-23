@@ -1,11 +1,11 @@
 const { expect } = require('chai');
-const { mongoUri } = require('../../../lib/definitions');
+const { mongo } = require('../../../lib/config');
 const mongoose = require('mongoose');
 const { ObjectId } = mongoose.Types;
 const Ingredient = require('../../../lib/models/ingredient');
 
 describe('Ingredient Unit Test', function () {
-	before(() => mongoose.connect(mongoUri));
+	before(() => mongoose.connect(mongo));
 	after(() => mongoose.disconnect());
 
 	let ingredientId;
