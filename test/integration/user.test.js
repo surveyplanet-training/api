@@ -7,7 +7,7 @@ describe('Integration User Test', function () {
 
 	let userCache;
 
-	after(() => mongoose.disconnect());
+	//after(() => mongoose.disconnect());
 
 	// =============================================================================
 	//  C R E A T E
@@ -100,11 +100,9 @@ describe('Integration User Test', function () {
 		};
 
 		const response = await request(app).put(`/v1/user/${ userCache._id }`).send(data);
-
-		console.log(response.headers, response.status, response.body);
-		expect(response.status).to.equal(200);
-		expect(response).to.have.properties('headers', 'status', 'body');		
+	
 		expect(response.headers['content-type']).to.match(/^application\/json/);
+		expect(response.status).to.equal(200);
 		expect(response.body).to.have.properties(
 			'_id',
 			'name',
@@ -122,30 +120,8 @@ describe('Integration User Test', function () {
 			'preferences'
 		);
 		userCache = response.body;
-		expect(response.body.name).to.deep.equal(data.name);
-		expect(response.body.email).to.equal(data.email);
 		expect(response.body.phone).to.equal(data.phone);
-		expect(response.body.photo).to.equal(data.photo);
-		expect(response.body.created).to.exist;
-		expect(response.body.updated).to.exist;
-		expect(response.body.verified).to.have.properties(
-			'hash',
-			'expires',
-			'date'
-		);
-		expect(response.body.password).to.equal(data.password);
-		expect(response.body.passReset).to.have.properties(
-			'hash',
-			'expires'
-		);
-		expect(response.body.passReset.hash).to.equal(data.passReset.hash);
-		expect(response.body.passReset.expires).to.equal(data.passReset.expires.toISOString());
-		expect(response.body.ip).to.equal(data.ip);
-		expect(response.body.notes).to.equal(data.notes);
-		expect(response.body.preferences).to.have.properties(
-			'currency'
-		);
-		expect(response.body.preferences.currency).to.equal(data.preferences.currency);
+
 	});
 
 
@@ -156,15 +132,10 @@ describe('Integration User Test', function () {
 	it('should retrieve a user', async function () {
 
 		const response = await request(app)
-			.get(`/v1/user/${userCache._id}`);
-
-		expect(response).to.have.properties('header', 'status', 'body');
+			.get(`/v1/user?id=${ userCache._id }`);
 
 		expect(response.headers['content-type']).to.match(/^application\/json/);
 		expect(response.status).to.equal(200);
-		expect(response).to.have.properties('header', 'status', 'body');
-
-		// 2. check user properties
 		expect(response.body).to.have.properties(
 			'_id',
 			'name',
@@ -178,54 +149,9 @@ describe('Integration User Test', function () {
 			'password',
 			'passReset',
 			'ip',
-			'notes'
+			'notes',
+			'preferences'
 		);
-
-		// 3. check if user values are correct...
-
-	});
-
-	// =============================================================================
-	//  R E T R I E V E   A L L   U S E R S
-	// =============================================================================
-
-	it('should retrieve all users for a user', async function () {
-
-		const response = await request(app)
-			.get('/v1/users')
-			.query({ user: userCache.user });
-
-		expect(response.headers['content-type']).to.match(/^application\/json/);
-		expect(response.status).to.equal(200);
-		expect(response).to.have.properties('header', 'status', 'body');
-
-		expect(response.body).to.be.an.instanceOf(Array);
-		expect(response.body).to.have.above(1);
-
-		// 2. check all user items
-		for (let index = 0; index < response.body.length; index++) {
-			const item = response.body[index];
-			
-			expect(item).to.have.properties(
-				'_id',
-				'name',
-				'email',
-				'phone',
-				'photo',
-				'created',
-				'updated',
-				//'loggedIn',
-				'verified',
-				'password',
-				'passReset',
-				'ip',
-				'notes'
-			); 
-
-			// 4. check if user values are correct...
-
-		}
-
 	});
 
 	//=============================================================================
@@ -233,16 +159,27 @@ describe('Integration User Test', function () {
 	//=============================================================================
 
 	it('should delete a user', async function () {
-
+		
 		const response = await request(app)
 			.delete(`/v1/user/${userCache._id}`);
-			
-		expect(response.status).to.equal(200);
+		expect(response.status).to.equal(200);			
+
 		expect(response.headers['content-type']).to.match(/^application\/json/);
-		expect(response).to.have.properties('header', 'status', 'body');
-
-		expect(response.body).to.have.property('deletedCount');
-		expect(response.body).to.eql({ deletedCount: 1 });
-
+		expect(response.body).to.have.properties(
+			'_id',
+			'name',
+			'email',
+			'phone',
+			'photo',
+			'created',
+			'updated',
+			//'loggedIn',
+			'verified',
+			'password',
+			'passReset',
+			'ip',
+			'notes',
+			'preferences'
+		);
 	});	
 });

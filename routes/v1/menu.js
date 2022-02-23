@@ -5,13 +5,13 @@ const Menu = require('../../lib/models/menu');
 module.exports = function (router) {
 
 
-	router.get('/menu/:id', async (request, response, next) => {
-		if (!ObjectId.isValid(request.params.id)) {
+	router.get('/menu', async (request, response, next) => {
+		if (!ObjectId.isValid(request.query.id)) {
 			return response.status(404).send('Not Found');
 		}
 
 		const query = {
-			_id: ObjectId(request.params.id),
+			_id: ObjectId(request.query.id),
 		};
 
 		let menu;
@@ -60,7 +60,7 @@ module.exports = function (router) {
 			console.error(err);
 			response(500);
 		}
-
+	
 		return response.json(doc);
 	});
 

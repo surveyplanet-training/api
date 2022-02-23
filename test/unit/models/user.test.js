@@ -44,7 +44,6 @@ describe('User Unit Test', function () {
 		} catch (error) {
 			expect(error).to.not.exist;
 		}
-		console.log(doc);
 		expect(doc).to.exist;
 		userId = doc._id;
 		expect(doc).to.have.property('_id');

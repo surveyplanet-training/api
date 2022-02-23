@@ -1,13 +1,10 @@
 const { expect } = require('chai');
 const request = require('supertest');
-const mongoose = require('mongoose');
 const app = require('../../app');
 
-describe('Integration Menu Item Test', function () {
+describe.skip('Integration Menu Item Test', function () {
 
 	let menuItemCache;
-
-	after(() => mongoose.disconnect());
 
 	it('should create a menu item', async function () {
 		const data = {
@@ -51,7 +48,6 @@ describe('Integration Menu Item Test', function () {
 		const response = await request(app).put(`/v1/menu-item/${menuItemCache._id}`).send(data);
 
 		expect(response).to.have.properties('headers', 'status', 'body');
-		console.log(response.headers, response.status, response.body);
 		expect(response.body.user).to.equal(menuItemCache.user);
 
 		expect(response.body.language).to.equal(menuItemCache.language);

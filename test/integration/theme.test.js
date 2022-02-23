@@ -3,11 +3,11 @@ const request = require('supertest');
 const mongoose = require('mongoose');
 const app = require('../../app');
 
-describe('Integration Theme Test', function () {
+describe.skip('Integration Theme Test', function () {
 
 	let themeCache;
 
-	after(() => mongoose.disconnect());
+	//after(() => mongoose.disconnect());
 
 	it('should create a theme', async function () {
 
