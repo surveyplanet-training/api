@@ -113,7 +113,7 @@ COPY --from=development --chown=node:node $BASE_DIR/node_modules $BASE_DIR/node_
 # audit node modules
 # RUN better-npm-audit audit --production
 
-CMD ["mocha", "test", "--reporter", "tap"]
+CMD ["npm", "test"]
 
 
 # | STAGE 6 | (staging)
