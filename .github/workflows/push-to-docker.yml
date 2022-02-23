@@ -12,14 +12,15 @@ jobs:
         uses: actions/checkout@v1
         id: git_checkout
 
-      - name: Docker Build & Push Action
-        uses: mr-smithers-excellent/docker-build-push@v5.6
+      - name: Build Docker Image
+        id: buildAndPushImage
+        uses: Abhishek-070/Dockerhub-Build-Push@v1.0
         with:
-          registry: 'docker.io'
-          image: 'lukamit/menu_api'
+          registry_url: 'docker.io'
+          repository_name: 'lukamit/menu_api'
           user_name: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-          tags: v1, latest
+          image_version: 'latest'
           docker_file: '.'
         env:
           MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
