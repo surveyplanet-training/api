@@ -2,7 +2,7 @@ name: GitHub Actions Push to DockerHub
 on:
   push:
     branches:
-      - ${GITHUB_REF#refs/heads/}
+      - luka-dev
 jobs:
   semVer:
     name: Semantic Version
