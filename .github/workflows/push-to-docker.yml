@@ -8,6 +8,11 @@ jobs:
     name: Semantic Version
     runs-on: ubuntu-latest
     steps:
+      - name: Git Checkout Code
+        id: git_checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - name: Semantic Version
         id: semVer
         uses: paulhatch/semantic-version@v4.0.2
@@ -31,6 +36,8 @@ jobs:
           short_tags: true
           # If this is set to true, *every* commit will be treated as a new version.
           bump_each_commit: false
+    outputs:
+      version: '${{ steps.semVer.outputs.version }}'
   build:
     name: Build and push to DockerHub
     runs-on: ubuntu-latest
@@ -48,7 +55,7 @@ jobs:
           repository_name: 'lukamit/menu_api'
           user_name: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-          image_version: '${{ semVer.steps.semVer.outputs.version }}'
+          image_version: '${{ jobs.semVer.outputs.version }}'
           docker_file: '.'
         env:
           MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
