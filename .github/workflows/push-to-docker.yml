@@ -2,16 +2,40 @@ name: GitHub Actions Push to DockerHub
 on:
   push:
     branches:
-      - luka
+      - luka-dev
 jobs:
   build:
     name: Build and push to DockerHub
     runs-on: ubuntu-latest
     steps:
       - name: Git Checkout Code
-        uses: actions/checkout@v1
         id: git_checkout
-
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Semantic Version
+        id: semVer
+        uses: paulhatch/semantic-version@v4.0.2
+        with:
+          # The prefix to use to identify tags
+          tag_prefix: 'v'
+          # A string which, if present in a git commit, indicates that a change represents a
+          # major (breaking) change, supports regular expressions wrapped with '/'
+          major_pattern: '(MAJOR)'
+          # Same as above except indicating a minor change, supports regular expressions wrapped with '/'
+          minor_pattern: '(MINOR)'
+          # A string to determine the format of the version output
+          format: '${major}.${minor}.${patch}-prerelease${increment}'
+          # # Optional path to check for changes. If any changes are detected in the path the
+          # # 'changed' output will true. Enter multiple paths separated by spaces.
+          # change_path: "src/my-service"
+          # Named version, will be used as suffix for name version tag
+          namespace: menu-api
+          # Indicate whether short tags like 'v1' should be supported. If false only full
+          # tags like 'v1.0.0' will be recognized.
+          short_tags: true
+          # If this is set to true, *every* commit will be treated as a new version.
+          bump_each_commit: false
       - name: Build Docker Image
         id: buildAndPushImage
         uses: Abhishek-070/Dockerhub-Build-Push@v1.0
@@ -20,7 +44,7 @@ jobs:
           repository_name: 'lukamit/menu_api'
           user_name: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-          image_version: 'latest'
+          image_version: '${{ steps.semVer.format }}'
           docker_file: '.'
         env:
           MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
