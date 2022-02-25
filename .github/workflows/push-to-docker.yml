@@ -48,7 +48,7 @@ jobs:
           repository_name: 'lukamit/menu_api'
           user_name: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-          image_version: '${{ jobs.semVer.steps.semVer.outputs.version }}'
+          image_version: '${{ semVer.steps.semVer.outputs.version }}'
           docker_file: '.'
         env:
           MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
