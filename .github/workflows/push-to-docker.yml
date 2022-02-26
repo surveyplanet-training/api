@@ -52,7 +52,7 @@ jobs:
         uses: Abhishek-070/Dockerhub-Build-Push@v1.0
         with:
           registry_url: 'docker.io'
-          repository_name: 'lukamit/menu_api' #secrets.REPOSITORY_NAME
+          repository_name: 'lukamit/menu-api' #secrets.REPOSITORY_NAME
           user_name: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
           image_version: '${{ needs.jobs.semVer.outputs.version }}'
