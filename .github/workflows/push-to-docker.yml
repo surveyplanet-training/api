@@ -55,7 +55,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: lukamit/menu-api-development:${{ needs.jobs.semVer.outputs.version }}
+          tags: 'lukamit/menu-api-development:${{ needs.jobs.semVer.outputs.version }}'
           target: development
           secrets: |
             "MONGO=${{ secrets.MONGO }}"
