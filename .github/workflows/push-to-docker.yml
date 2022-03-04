@@ -52,11 +52,12 @@ jobs:
         uses: Abhishek-070/Dockerhub-Build-Push@v1.0
         with:
           registry_url: 'docker.io'
-          repository_name: 'lukamit/menu-api' #secrets.REPOSITORY_NAME
+          repository_name: 'lukamit/menu-api-development' #secrets.REPOSITORY_NAME
           user_name: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
           image_version: '${{ needs.jobs.semVer.outputs.version }}'
           docker_file: '.'
+          target: 'development'
         env:
           MONGO: ${{ secrets.MONGO }}
           LOCAL_ENV: 'github'
