@@ -58,7 +58,7 @@ jobs:
           push: true
           tags: |
             lukamit/menu-api-development
-            version: ${{ needs.jobs.semVer.outputs.version }}
+            'version: ${{ needs.jobs.semVer.outputs.version }}'
           target: development
           secrets: |
             "MONGO=${{ secrets.MONGO }}"
