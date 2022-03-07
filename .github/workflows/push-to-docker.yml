@@ -36,13 +36,10 @@ jobs:
           short_tags: true
           # If this is set to true, *every* commit will be treated as a new version.
           bump_each_commit: false
+      - name: echo semver
+        run: echo '${{ steps.semVerJob.outputs.version }}'
     outputs:
       version: '${{ steps.semVerJob.outputs.version }}'
-  echoSemVer:
-    runs-on: ubuntu-latest
-    steps:
-      - name: echo semver
-        run: echo '${{ needs.jobs.semVerJob.outputs.version }}'
   # docker:
   #   runs-on: ubuntu-latest
   #   steps:
