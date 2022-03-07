@@ -38,12 +38,12 @@ jobs:
           # If this is set to true, *every* commit will be treated as a new version.
           bump_each_commit: false
     outputs:
-      version: '${{ steps.semVer.outputs.version }}'
+      version: '${ steps.semVer.outputs.version }'
   docker:
     runs-on: ubuntu-latest
     steps:
       - name: echo semver
-        run: echo '${{ needs.jobs.semVer.outputs.version }}'
+        run: echo '${ needs.jobs.semVer.outputs.version }'
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
       - name: Set up Docker Buildx
