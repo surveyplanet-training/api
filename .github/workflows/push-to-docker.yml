@@ -42,6 +42,7 @@ jobs:
       version: '${{ steps.semVer.outputs.version }}'
   docker:
     runs-on: ubuntu-latest
+    needs: semVerJob
     steps:
       - name: echo semver
         run: echo '${{ needs.semVerJob.outputs.version }}'
