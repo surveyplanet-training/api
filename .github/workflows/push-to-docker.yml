@@ -38,13 +38,18 @@ jobs:
           bump_each_commit: false
       - name: echo semver
         run: echo '${{ steps.semVer.outputs.version }}'
+      - name: date
+        run: date
     outputs:
       version: '${{ steps.semVer.outputs.version }}'
   docker:
     runs-on: ubuntu-latest
+    needs: semVerJob
     steps:
       - name: echo semver
         run: echo '${{ needs.jobs.semVer.outputs.version }}'
+      - name: date
+        run: date
   # docker:
   #   runs-on: ubuntu-latest
   #   steps:
