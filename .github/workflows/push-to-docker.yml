@@ -40,6 +40,11 @@ jobs:
         run: echo '${{ steps.semVer.outputs.version }}'
     outputs:
       version: '${{ steps.semVer.outputs.version }}'
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: echo semver
+        run: echo '${{ needs.jobs.semVer.outputs.version }}'
   # docker:
   #   runs-on: ubuntu-latest
   #   steps:
