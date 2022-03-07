@@ -58,7 +58,7 @@ jobs:
         with:
           push: true
           tags: 'lukamit/menu-api-development:${{ needs.semVerJob.outputs.version }}'
-          target: development
+          target: staging
           secrets: |
             "MONGO=${{ secrets.MONGO }}"
             "LOCAL_ENV= github"
