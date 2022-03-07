@@ -47,7 +47,7 @@ jobs:
     needs: semVerJob
     steps:
       - name: echo semver
-        run: echo '${{ needs.jobs.semVer.outputs.version }}'
+        run: echo '${{ needs.jobs.semVerJob.outputs.version }}'
       - name: date
         run: date
   # docker:
