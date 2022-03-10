@@ -71,21 +71,22 @@ USER root
 # These come in hande for debugging in staging env
 RUN apt-get -y update \
 && apt-get -y install curl \
+&& apt-get -y install tree \
 && apt-get -y install vim
 
 USER node
 
 WORKDIR $BASE_DIR
 
-# installing only dev modules here creates an issue where
-# define-properties was not being installed for some reason and is required by mocha
-# RUN npm install --only=dev
-# && npm install define-properties
 RUN npm install
 
 WORKDIR $APP_DIR
 
-CMD ["nodemon", "--legacy-watch", "index.js"]
+# RUN ls -alH
+
+# RUN ls -alH ../node_modules/.bin
+
+CMD ["../node_modules/.bin/nodemon", "--legacy-watch", "index.js"]
 
 
 

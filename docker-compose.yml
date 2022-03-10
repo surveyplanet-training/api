@@ -1,0 +1,77 @@
+version: '2.4'
+
+services:
+  # May be used for authentication and authorization
+  # redis:
+  #   image: redis:5.0
+  #   ports:
+  #     - 6379:6379
+  #   healthcheck:
+  #     test:
+  #       - CMD
+  #       - redis-cli
+  #       - ping
+
+  mongodb:
+    image: mongo:4.2
+    ports:
+      # need to expose port 27017 so we can run tests on database models
+      - 27017:27017
+    volumes:
+      - database:/data/db
+    healthcheck:
+      test:
+        - CMD
+        - mongo
+        - --eval
+        - 'db.runCommand("ping").ok'
+        - --quiet
+
+  api:
+    build:
+      context: .
+      target: ${API_TARGET:-development}
+      # args:
+      #   npm_token: $NPM_TOKEN
+    ports:
+      - 9000:9000
+    environment:
+      # CONFIG: './config.json'
+      MONGO: 'mongodb://mongodb:27017/menu'
+      PORT: 9000
+      COMPOSE: 'UP'
+
+      # AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+      # AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+      # NODE_ENV: ${API_TARGET:-development}
+    volumes:
+      # you need to bind-mount package files up a directory if you want to npm install in container
+      # remember to move to /var/www before doing anything with npm while inside container
+      - ./package.json:/var/www/package.json
+      - ./package-lock.json:/var/www/package-lock.json
+      - ./:/var/www/api:cached # right now cached works as good or better then delegated on MacOS
+      - /var/www/api/node_modules # replace node_modules with empty directory
+
+    # need to set up a healtheck route you can use a healthcheck utility i've created
+    # npm install --save-dev @jwerre/healthcheck
+    # healthcheck:
+    #   test:
+    #     - CMD
+    #     - healthcheck
+    #     - http://api:PORT/liveness
+    #     - --type
+    #     - json
+    #     - --search
+    #     - live=1
+
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      # redis:
+      #   condition: service_healthy
+
+  # in the future we'll add the front-end here
+  # app: ...
+
+volumes:
+  database:
