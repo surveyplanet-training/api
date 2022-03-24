@@ -41,19 +41,19 @@ jobs:
     outputs:
       version: '${{ steps.semVer.outputs.version }}'
   # run audit
-  audit:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Git Checkout Code
-        uses: actions/checkout@v2
-        run: npm audit
+  # audit:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Git Checkout Code
+  #       uses: actions/checkout@v2
+  #       run: npm audit
 
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Git Checkout Code
-        uses: actions/checkout@v2
-        run: npm test
+  # test:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Git Checkout Code
+  #       uses: actions/checkout@v2
+  #       run: npm test
   # run test
   docker:
     runs-on: ubuntu-latest
