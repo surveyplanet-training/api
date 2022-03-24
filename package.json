@@ -22,7 +22,8 @@
 		"chai-iso8601": "^1.0.0",
 		"express": "^4.17.1",
 		"http-shutdown": "^1.2.2",
-		"mongoose": "^6.1.2"
+		"mongoose": "^6.1.2",
+		"prom-client": "^14.0.1"
 	},
 	"engines": {
 		"node": ">=14.0.0 <=16.0.0"
