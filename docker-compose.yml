@@ -13,7 +13,7 @@ services:
   #       - ping
 
   mongodb:
-    image: mongo:4.2
+    image: mongo:5.0
     ports:
       # need to expose port 27017 so we can run tests on database models
       - 27017:27017

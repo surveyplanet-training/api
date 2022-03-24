@@ -132,7 +132,7 @@ RUN apt-get -y update \
 
 USER node
 
-# HEALTHCHECK --interval=30s CMD healthcheck http://localhost:$PORT/liveness --type json --search live=1
+HEALTHCHECK --interval=30s CMD healthcheck http://localhost:$PORT/liveness --type json --search live=1
 
 CMD ["node", "index.js"]
 
@@ -143,6 +143,6 @@ FROM source as production
 
 ENV NODE_ENV=production
 
-# HEALTHCHECK --interval=30s CMD healthcheck http://localhost:$PORT/liveness --type json --search live=1
+HEALTHCHECK --interval=30s CMD healthcheck http://localhost:$PORT/liveness --type json --search live=1
 
 CMD ["node", "index.js"]
