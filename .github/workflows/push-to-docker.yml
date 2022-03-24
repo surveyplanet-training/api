@@ -57,7 +57,7 @@ jobs:
   # run test
   docker:
     runs-on: ubuntu-latest
-    needs: audit, test, semVerJob
+    needs: semVerJob # audit, test,
     steps:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
