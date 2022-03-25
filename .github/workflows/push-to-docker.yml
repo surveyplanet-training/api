@@ -88,10 +88,10 @@ jobs:
         with:
           repository: surveyplanet-training/menu-infrastructure
           ref: luka
-          path: ./Infrastructure
+          path: ./infrastructure
 
       - name: Edit Infrastructure Version
-        run: gawk -i inplace '{sub(/menu-api-development.*/,"menu-api-development:${{ needs.semVer.outputs.version }}"); print}' manifests/menu/api/deployment.yml
+        run: gawk -i inplace '{sub(/menu-api-development.*/,"menu-api-development:${{ needs.semVer.outputs.version }}"); print}' infrastructure/manifests/menu/api/deployment.yml
 
       - name: Run the Action
         uses: devops-infra/action-commit-push@master
