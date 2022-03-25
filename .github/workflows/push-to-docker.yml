@@ -97,7 +97,7 @@ jobs:
           API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
         with:
           source_file: 'infrastructure/manifests/menu/api/deployment.yml'
-          destination_repo: 'surveyplaney-training/menu-infrastructure'
+          destination_repo: 'surveyplanet-training/menu-infrastructure'
           destination_folder: 'infrastructure/manifests/menu/api/'
           user_email: 'automated@github-actions'
           user_name: 'luka-automated'
