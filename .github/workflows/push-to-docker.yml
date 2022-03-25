@@ -102,11 +102,11 @@ jobs:
           path: ./infrastructure
           run: |
             gawk -i inplace '{sub(/menu-api-development.*/,"menu-api-development:${{ needs.semVer.outputs.version }}"); print}' infrastructure/manifests/menu/api/deployment.yml
-      - name: Push to Infrastructure
-        run: |
-          cd infrastructure
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git add .
-          git commit -m "generated"
-          git push
+      # - name: Push to Infrastructure
+      #   run: |
+      #     cd infrastructure
+      #     git config user.name github-actions
+      #     git config user.email github-actions@github.com
+      #     git add .
+      #     git commit -m "generated"
+      #     git push
