@@ -91,14 +91,14 @@ jobs:
           path: ./infrastructure
 
       - name: Edit Infrastructure Version
-        run: gawk -i inplace '{sub(/menu-api-development.*/,"menu-api-development:${{ needs.semVer.outputs.version }}"); print}' infrastructure/manifests/menu/api/deployment.yml
+        run: |
+          gawk -i inplace '{sub(/menu-api-development.*/,"menu-api-development:${{ needs.semVer.outputs.version }}"); print}' infrastructure/manifests/menu/api/deployment.yml
 
-      - name: Run the Action
-        uses: devops-infra/action-commit-push@master
-        with:
-          github_token: '${{ secrets.PAT_MENU_INFRASTRUCTURE }}'
-          add_timestamp: true
-          commit_prefix: '[AUTO]'
-          commit_message: 'Automatic commit'
-          force: false
-          target_branch: luka
+      - name: Git Push Infrastructure
+        uses: actions/checkout@v3
+        -run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add .
+          git commit -m "generated"
+          git push
