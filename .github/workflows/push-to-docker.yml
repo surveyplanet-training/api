@@ -81,9 +81,7 @@ jobs:
   update-infrastructure:
     name: Update infrastructure version to source version
     runs-on: ubuntu-latest
-    needs: |
-      semVer
-      docker
+    needs: [semVer, docker]
     steps:
       - name: Git Checkout Infrastructure
         uses: actions/checkout@v3
