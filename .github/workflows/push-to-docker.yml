@@ -89,8 +89,8 @@ jobs:
           repository: surveyplanet-training/menu-infrastructure
           ref: luka
           path: ./infrastructure
-          run: |
-            gawk -i inplace '{sub(/menu-api-development.*/,"menu-api-development:${{ needs.semVer.outputs.version }}"); print}' infrastructure/manifests/menu/api/deployment.yml
+      - name: Update API deployment
+        run: gawk -i inplace '{sub(/menu-api-development.*/,"menu-api-development:${{ needs.semVer.outputs.version }}");}' infrastructure/manifests/menu/api/deployment.yml
       - name: Pushes to Infrastructure
         uses: dmnemec/copy_file_to_another_repo_action@main
         env:
@@ -98,7 +98,8 @@ jobs:
         with:
           source_file: 'infrastructure/manifests/menu/api/deployment.yml'
           destination_repo: 'surveyplanet-training/menu-infrastructure'
-          destination_folder: 'infrastructure/manifests/menu/api/'
+          destination_folder: 'manifests/menu/api/'
+          destination_branch: 'luka'
           user_email: 'automated@github-actions'
           user_name: 'luka-automated'
           commit_message: 'Automated semVer Update'
