@@ -4,7 +4,7 @@ on:
     branches:
       - luka-dev
 jobs:
-  semVerJob:
+  semVer:
     name: Semantic Version Job
     runs-on: ubuntu-latest
     steps:
