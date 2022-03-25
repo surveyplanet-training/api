@@ -88,26 +88,26 @@ jobs:
         with:
           repository: surveyplanet-training/menu-infrastructure
           ref: luka
+          token: ${{ secrets.API_TOKEN_GITHUB }}
           path: ./infrastructure
       - name: Update API deployment
         run: gawk -i inplace '{sub(/menu-api-development.*/,"menu-api-development:${{ needs.semVer.outputs.version }}");}' infrastructure/manifests/menu/api/deployment.yml
-      - name: Pushes to Infrastructure
-        uses: dmnemec/copy_file_to_another_repo_action@main
-        env:
-          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
-        with:
-          source_file: 'infrastructure/manifests/menu/api/deployment.yml'
-          destination_repo: 'surveyplanet-training/menu-infrastructure'
-          destination_folder: 'manifests/menu/api/'
-          destination_branch: 'luka'
-          user_email: 'automated@github-actions'
-          user_name: 'luka-automated'
-          commit_message: 'Automated semVer Update'
-      # - name: Push to Infrastructure
-      #   run: |
-      #     cd infrastructure
-      #     git config user.name github-actions
-      #     git config user.email github-actions@github.com
-      #     git add .
-      #     git commit -m "generated"
-      #     git push
+      # - name: Pushes to Infrastructure
+      #   uses: dmnemec/copy_file_to_another_repo_action@main
+      #   env:
+      #     API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+      #   with:
+      #     source_file: 'infrastructure/manifests/menu/api/deployment.yml'
+      #     destination_repo: 'surveyplanet-training/menu-infrastructure'
+      #     destination_folder: 'manifests/menu/api/'
+      #     destination_branch: 'luka'
+      #     user_email: 'automated@github-actions'
+      #     user_name: 'luka-automated'
+      #     commit_message: 'Automated semVer Update'
+      - run: |
+          cd infrastructure
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add .
+          git commit -m "generated"
+          git push
