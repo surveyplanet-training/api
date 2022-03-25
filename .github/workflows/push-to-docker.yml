@@ -91,9 +91,13 @@ jobs:
           path: ./infrastructure
           run: |
             gawk -i inplace '{sub(/menu-api-development.*/,"menu-api-development:${{ needs.semVer.outputs.version }}"); print}' infrastructure/manifests/menu/api/deployment.yml
-            cd infrastructure
-            git config user.name github-actions
-            git config user.email github-actions@github.com
-            git add .
-            git commit -m "generated"
-            git push
+      - name: Push to Infrastructure
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+        with:
+          source-directory: 'infrastructure'
+          destination-github-username: 'ghub-actions'
+          destination-repository-name: 'surveyplanet-training/menu-infrastructure'
+          user-email: 'automated@luka.com'
+          target-branch: luka
