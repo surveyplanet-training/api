@@ -4,7 +4,7 @@ on:
     branches:
       - luka-dev
 jobs:
-  scan:
+  auditTest:
     name: npm Audit Test
     runs-on: ubuntu-latest
     steps:
@@ -29,6 +29,7 @@ jobs:
           MONGO: ${{ secrets.MONGO }}
           LOCAL_ENV: github
   semVer:
+    needs: auditTest
     name: Semantic Version Job
     runs-on: ubuntu-latest
     steps:
