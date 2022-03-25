@@ -91,7 +91,7 @@ jobs:
           token: ${{ secrets.API_TOKEN_GITHUB }}
           path: ./infrastructure
       - name: Update API deployment
-        run: gawk -i inplace '{sub(/menu-api-development.*/,"menu-api-development:${{ needs.semVer.outputs.version }}");}' infrastructure/manifests/menu/api/deployment.yml
+        run: gawk -i inplace '{sub(/menu-api-development.*/,"menu-api-development:${{ needs.semVer.outputs.version }}");print}' infrastructure/manifests/menu/api/deployment.yml
       # - name: Pushes to Infrastructure
       #   uses: dmnemec/copy_file_to_another_repo_action@main
       #   env:
