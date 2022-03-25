@@ -57,7 +57,7 @@ jobs:
   # run test
   docker:
     runs-on: ubuntu-latest
-    needs: semVerJob # audit, test,
+    needs: semVer # audit, test,
     steps:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -72,7 +72,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: 'lukamit/menu-api-development:${{ needs.semVerJob.outputs.version }}'
+          tags: 'lukamit/menu-api-development:${{ needs.semVer.outputs.version }}'
           target: staging
           secrets: |
             "MONGO=${{ secrets.MONGO }}"
@@ -80,13 +80,24 @@ jobs:
   update-infrastructure:
     name: Update infrastructure version to source version
     runs-on: ubuntu-latest
-    needs: docker
+    needs: semVer, docker
     steps:
       - name: Git Checkout Infrastructure
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
-          repository:
+          repository: surveyplanet-training/menu-infrastructure
+          ref: luka
           path: ./Infrastructure
 
       - name: Edit Infrastructure Version
-        run: echo "TODO"
+        run: gawk -i inplace '{sub(/menu-api-development.*/,"menu-api-development:${{ needs.semVer.outputs.version }}"); print}' manifests/menu/api/deployment.yml
+
+      - name: Run the Action
+        uses: devops-infra/action-commit-push@master
+        with:
+          github_token: '${{ secrets.PAT_MENU_INFRASTRUCTURE }}'
+          add_timestamp: true
+          commit_prefix: '[AUTO]'
+          commit_message: 'Automatic commit'
+          force: false
+          target_branch: luka
