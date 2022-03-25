@@ -56,33 +56,44 @@ jobs:
   #       run: npm test
   # run test
   docker:
-    runs-on: ubuntu-latest
-    needs: semVer # audit, test,
-    steps:
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-      - name: Login to DockerHub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Build and push
-        uses: docker/build-push-action@v2
-        with:
-          push: true
-          tags: 'lukamit/menu-api-development:${{ needs.semVer.outputs.version }}'
-          target: staging
-          secrets: |
-            "MONGO=${{ secrets.MONGO }}"
-            "LOCAL_ENV= github"
+    # runs-on: ubuntu-latest
+    # needs: semVer # audit, test,
+    # steps:
+    #   - name: Set up QEMU
+    #     uses: docker/setup-qemu-action@v1
+    #   - name: Set up Docker Buildx
+    #     uses: docker/setup-buildx-action@v1
+    #   - name: Login to DockerHub
+    #     uses: docker/login-action@v1
+    #     with:
+    #       username: ${{ secrets.DOCKERHUB_USERNAME }}
+    #       password: ${{ secrets.DOCKERHUB_TOKEN }}
+    #   - name: Build and push
+    #     uses: docker/build-push-action@v2
+    #     with:
+    #       push: true
+    #       tags: 'lukamit/menu-api-development:${{ needs.semVer.outputs.version }}'
+    #       target: staging
+    #       secrets: |
+    #         "MONGO=${{ secrets.MONGO }}"
+    #         "LOCAL_ENV= github"
 
   update-infrastructure:
     name: Update infrastructure version to source version
     runs-on: ubuntu-latest
     needs: [semVer, docker]
     steps:
+      - name: SSH Key
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+          run: |
+            mkdir -p ~/.ssh
+            ssh-keyscan example.com >> ~/.ssh/known_hosts
+            echo "${{ secrets.ACTIONS_SSH }}" > /home/runner/.ssh/github_actions
+            chmod 600 /home/runner/.ssh/github_actions
+            ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+            ssh-add /home/runner/.ssh/github_actions
+
       - name: Git Checkout Infrastructure
         uses: actions/checkout@v3
         with:
@@ -92,12 +103,10 @@ jobs:
           run: |
             gawk -i inplace '{sub(/menu-api-development.*/,"menu-api-development:${{ needs.semVer.outputs.version }}"); print}' infrastructure/manifests/menu/api/deployment.yml
       - name: Push to Infrastructure
-        uses: cpina/github-action-push-to-another-repository@main
-        env:
-          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
-        with:
-          source-directory: 'infrastructure'
-          destination-github-username: 'ghub-actions'
-          destination-repository-name: 'surveyplanet-training/menu-infrastructure'
-          user-email: 'automated@luka.com'
-          target-branch: luka
+        run: |
+          cd infrastructure
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add .
+          git commit -m "generated"
+          git push
