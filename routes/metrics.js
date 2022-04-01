@@ -1,27 +1,12 @@
 const mongoose = require('mongoose');
-const client = require('prom-client');
 const express = require('express');
 const packageJson = require('../package.json');
 const router = express.Router();
-// Create a Registry which registers the metrics
-const register = new client.Registry();
-
-// Add a default label which is added to all metrics
-register.setDefaultLabels({
-	app: 'menu-api',
-});
-
-// Enable the collection of default metrics
-client.collectDefaultMetrics({ register });
+const {registerPromMetrics} = require('../lib/monitor');
 
 module.exports = function () {
 
-	router.get('/metrics', async (request, response, next) => {
-		response.setHeader('Content-Type', register.contentType);
-		const metrics = await register.metrics();
-		response.send(metrics);
-	});
-
+	router.get('/metrics', registerPromMetrics );
 
 	router.get('/liveness', function(req, res, next) {
 
@@ -34,7 +19,7 @@ module.exports = function () {
 			live: 1,
 			ua: req.get('User-Agent'),
 			ip: req.ip
-		})
+		});
 
 	});
 	
