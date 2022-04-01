@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const config = require('./lib/config');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
-const { measureRequestDuration } = require('./lib/monitor');
+// const { measureRequestDuration } = require('./lib/monitor');
 const {skip, format} = require('./lib/logger');
 
 
@@ -22,7 +22,7 @@ const app = express();
 app.set('port', config.port); // use: app.get('port')
 app.use( bodyParser.json() );
 app.use( morgan( format, {skip:skip} ) );
-app.use( measureRequestDuration );
+// app.use( measureRequestDuration );
 
 
 // all urls will be accessed through /v1/... ( e.g. /v1/users, /v2/foods, etc.)

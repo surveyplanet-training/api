@@ -32,6 +32,7 @@ function sigtermHander() {
 }
 
 function shutdown() {
+
 	if (!server) {
 		return process.exit(1);
 	}
@@ -49,13 +50,14 @@ function shutdown() {
 	});
 }
 
-(async function () {
+( function () {
 
-	server = httpShutdown( app.listen(app.get('port')));
+	server = httpShutdown( app.listen( app.get('port') ));
 
 	server.on('error', serverErrorHandler);
 	server.on('listening', serverListeningHandler);
 
 	process.on('SIGINT', sigintHander);
 	process.on('SIGTERM', sigtermHander);
+
 })();
