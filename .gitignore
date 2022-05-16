@@ -56,3 +56,4 @@ node_modules
 env.json
 config.json
 data
+.secrets
